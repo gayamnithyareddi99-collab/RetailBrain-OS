@@ -1,0 +1,3050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RetailBrain OS | AI-Driven Retail Decision Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+:root{
+  /* RetailBrain OS Brand  Deep Navy + Electric Teal + White */
+  --teal:#0D9488;
+  --teal-light:#14B8A6;
+  --teal-dim:#0F766E;
+  --teal-dark:#115E59;
+
+  /* Dark Navy Blues */
+  --navy:#0B1E3D;
+  --navy-mid:#0F2756;
+  --navy-light:#1A3A6E;
+  --navy-bright:#1D4ED8;
+  --blue-accent:#1E40AF;
+  --blue-soft:#2563EB;
+  --blue-glow:rgba(37,99,235,0.08);
+
+  /* Light Theme Surfaces */
+  --bg-black:#FFFFFF;
+  --bg-deep:#F0FDFA;
+  --bg-dark:#CCFBF1;
+  --bg-card:#FFFFFF;
+  --light-bg:#F0FDFA;
+  --light-card:#FFFFFF;
+  --light-border:#99F6E4;
+  --text-dark:#0B1E3D;
+  --text-mid:#134E4A;
+  --text-muted:#115E59;
+
+  --white:#FFFFFF;
+  --txt-secondary:#374151;
+  --txt-dim:#6B7280;
+
+  --card-bg:#FFFFFF;
+  --card-border:rgba(13,148,136,0.14);
+  --navy-card:#FFFFFF;
+  --navy-border:rgba(37,99,235,0.18);
+
+  --nav-h:72px;
+  --max-w:1200px;
+  --font:'Plus Jakarta Sans',sans-serif;
+  --display:'Sora',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --ease:cubic-bezier(0.4,0,0.2,1);
+  --ease-out:cubic-bezier(0,0,0.2,1);
+}
+
+body{font-family:var(--font);color:var(--text-dark);background:var(--bg-black);overflow-x:hidden;}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:#F0FDFA;}
+::-webkit-scrollbar-thumb{background:var(--teal);border-radius:2px;}
+
+img{display:block;max-width:100%;}
+
+/* ─── NAVBAR ─────────────────────────────────────────── */
+.navbar{
+  position:fixed;top:0;left:0;width:100%;height:var(--nav-h);
+  background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(13,148,136,0.1);
+  z-index:1000;display:flex;align-items:center;
+  padding:0 clamp(16px,5vw,60px);
+  justify-content:space-between;
+  transition:border-color 0.3s;
+  box-shadow:0 1px 20px rgba(13,148,136,0.06);
+}
+.nav-logo{
+  font-family:var(--display);font-size:22px;font-weight:800;
+  color:var(--navy);letter-spacing:-0.3px;
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;text-decoration:none;flex-shrink:0;
+}
+.nav-logo-icon{
+  width:40px;height:40px;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--teal) 100%);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 4px 14px rgba(13,148,136,0.35);
+}
+.nav-logo-icon svg{width:22px;height:22px;}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1;}
+.nav-logo-text span{font-size:10px;font-family:var(--mono);font-weight:500;color:var(--txt-dim);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none;}
+.nav-links li button{
+  background:none;border:none;
+  color:var(--txt-dim);
+  font-size:11px;font-weight:600;
+  padding:8px 16px;border-radius:7px;
+  transition:all 0.22s var(--ease);
+  cursor:pointer;font-family:var(--mono);
+  letter-spacing:0.8px;text-transform:uppercase;
+  position:relative;white-space:nowrap;
+}
+.nav-links li button:hover{color:var(--teal);background:rgba(13,148,136,0.06);}
+.nav-links li button.active{color:var(--teal);background:rgba(13,148,136,0.07);}
+.nav-links li button.active::after{
+  content:'';position:absolute;bottom:5px;left:50%;
+  transform:translateX(-50%);width:14px;height:2px;
+  background:var(--teal);border-radius:2px;
+}
+
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-demo-nav{
+  background:linear-gradient(135deg,var(--navy),var(--teal));
+  color:var(--white);border:none;padding:9px 20px;border-radius:8px;
+  font-size:11px;font-weight:700;cursor:pointer;
+  transition:all 0.22s;font-family:var(--mono);
+  letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap;
+  box-shadow:0 2px 10px rgba(13,148,136,0.3);
+}
+.btn-demo-nav:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(13,148,136,0.5);}
+
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;flex-shrink:0;}
+.hamburger span{width:22px;height:2px;background:var(--teal);border-radius:2px;transition:0.3s;display:block;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mobile-nav{
+  display:none;position:fixed;top:var(--nav-h);left:0;width:100%;
+  background:rgba(255,255,255,0.99);backdrop-filter:blur(20px);
+  padding:12px 20px 20px;flex-direction:column;gap:2px;
+  z-index:999;border-bottom:1px solid rgba(13,148,136,0.1);
+  animation:slideDown 0.25s var(--ease-out);
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.mobile-nav.open{display:flex;}
+.mobile-nav button{
+  background:none;border:none;color:var(--txt-dim);
+  font-size:13px;font-weight:600;padding:13px 12px;
+  border-bottom:1px solid rgba(13,148,136,0.07);
+  cursor:pointer;font-family:var(--mono);text-align:left;
+  text-transform:uppercase;letter-spacing:1px;
+  transition:color 0.2s,background 0.2s;border-radius:6px;
+}
+.mobile-nav button:hover{color:var(--teal);background:rgba(13,148,136,0.05);}
+.mobile-nav .mob-cta{
+  margin-top:8px;background:linear-gradient(135deg,var(--navy),var(--teal));
+  color:var(--white);border:none;padding:13px;
+  border-radius:8px;font-weight:700;font-size:12px;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;
+  font-family:var(--mono);
+}
+
+/* ─── PAGE SYSTEM ─────────────────────────────────────── */
+.page{display:none;min-height:100vh;padding-top:var(--nav-h);}
+.page.active{display:block;animation:pgIn 0.35s var(--ease);}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ─── SECTION COMMONS ─────────────────────────────────── */
+.label-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--teal);margin-bottom:14px;
+}
+.label-tag::before{content:'';width:20px;height:1px;background:var(--teal);}
+
+.label-tag-blue{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--navy-light);margin-bottom:14px;
+}
+.label-tag-blue::before{content:'';width:20px;height:1px;background:var(--navy-light);}
+
+.section-h2{
+  font-family:var(--display);font-size:clamp(28px,3.5vw,52px);
+  font-weight:800;line-height:1.1;letter-spacing:-0.8px;
+  margin-bottom:10px;
+}
+.section-h2.green{color:var(--teal);}
+.section-h2.dark{color:var(--text-dark);}
+.section-h2.white{color:var(--text-dark);}
+.section-h2.navy-txt{color:var(--navy-light);}
+
+.section-divider{width:56px;height:3px;margin:16px 0 28px;border-radius:2px;}
+.divider-green{background:linear-gradient(90deg,var(--teal),transparent);}
+.divider-blue{background:linear-gradient(90deg,var(--navy-light),transparent);}
+.divider-center{margin:16px auto 28px;}
+
+.para-dark{color:var(--txt-secondary);line-height:1.85;font-size:17px;}
+.para-light{color:var(--text-mid);line-height:1.85;font-size:17px;}
+
+.container{max-width:var(--max-w);margin:0 auto;padding:0 clamp(16px,4vw,60px);}
+
+/* ─── BUTTONS ─────────────────────────────────────────── */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--navy),var(--teal));
+  color:var(--white);padding:13px 28px;border-radius:8px;
+  text-decoration:none;font-weight:700;font-size:12px;
+  letter-spacing:0.8px;text-transform:uppercase;
+  transition:all 0.25s;font-family:var(--mono);border:none;cursor:pointer;
+  box-shadow:0 4px 16px rgba(13,148,136,0.25);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(13,148,136,0.4);}
+
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1.5px solid rgba(13,148,136,0.45);color:var(--teal);
+  padding:12px 28px;border-radius:8px;text-decoration:none;
+  font-weight:700;font-size:12px;letter-spacing:0.8px;
+  text-transform:uppercase;transition:all 0.25s;
+  font-family:var(--mono);background:none;cursor:pointer;
+}
+.btn-secondary:hover{background:rgba(13,148,136,0.06);border-color:var(--teal);}
+
+.btn-blue{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--navy);color:var(--white);
+  padding:12px 28px;border-radius:8px;
+  font-weight:700;font-size:12px;letter-spacing:0.8px;
+  text-transform:uppercase;transition:all 0.25s;
+  font-family:var(--mono);border:none;cursor:pointer;
+  box-shadow:0 4px 16px rgba(11,30,61,0.3);
+}
+.btn-blue:hover{transform:translateY(-2px);background:var(--navy-mid);box-shadow:0 8px 28px rgba(11,30,61,0.45);}
+
+/* ─── STATUS BADGES ─────────────────────────────── */
+.risk-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:20px;
+  font-size:10px;font-weight:700;font-family:var(--mono);letter-spacing:0.5px;
+}
+.risk-green{background:rgba(13,148,136,0.08);color:var(--teal);border:1px solid rgba(13,148,136,0.25);}
+.risk-amber{background:rgba(245,158,11,0.08);color:#D97706;border:1px solid rgba(245,158,11,0.22);}
+.risk-red{background:rgba(239,68,68,0.08);color:#DC2626;border:1px solid rgba(239,68,68,0.2);}
+.risk-blue{background:rgba(11,30,61,0.08);color:var(--navy);border:1px solid rgba(11,30,61,0.22);}
+.risk-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+
+/* ─── HERO ─────────────────────────────────────────────── */
+.hero-mini-stats{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+.hero-mini-card{
+  background:rgba(13,148,136,0.06);
+  border:1px solid rgba(13,148,136,0.14);
+  border-radius:12px;padding:14px 18px;min-width:150px;
+}
+.hero-mini-card strong{
+  display:block;color:var(--teal);font-size:22px;
+  font-weight:800;margin-bottom:4px;font-family:var(--display);
+}
+.hero-mini-card span{color:var(--txt-secondary);font-size:12px;line-height:1.5;}
+
+.score-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px;}
+.dashboard-title{color:var(--text-dark);font-size:18px;font-weight:800;margin-top:8px;line-height:1.3;}
+.live-dot-wrap{display:flex;align-items:center;gap:7px;color:var(--teal);font-size:10px;font-family:var(--mono);letter-spacing:1.5px;}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse-dot 1.6s ease-in-out infinite;}
+
+.hero{
+  position:relative;
+  padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,90px);
+  background:
+    radial-gradient(circle at top right, rgba(13,148,136,0.1), transparent 45%),
+    radial-gradient(circle at bottom left, rgba(11,30,61,0.08), transparent 45%),
+    linear-gradient(160deg,#F0FDFA 0%,#ECFDF5 50%,#E6FFFA 100%);
+  overflow:hidden;
+  min-height:calc(100vh - var(--nav-h));
+  display:flex;align-items:center;
+}
+.hero-inner{
+  max-width:var(--max-w);margin:0 auto;
+  padding:0 clamp(16px,4vw,60px);
+  display:grid;grid-template-columns:1.15fr 0.85fr;
+  gap:clamp(30px,5vw,80px);align-items:center;
+  position:relative;z-index:1;width:100%;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:9px;
+  background:rgba(13,148,136,0.07);
+  border:1px solid rgba(13,148,136,0.22);
+  color:var(--teal);font-size:10px;font-weight:700;
+  letter-spacing:2.5px;padding:6px 14px 6px 10px;
+  border-radius:4px;text-transform:uppercase;
+  margin-bottom:20px;font-family:var(--mono);
+}
+.hero-badge-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--teal);
+  animation:pulse-dot 1.6s ease-in-out infinite;flex-shrink:0;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.35;transform:scale(0.55);}}
+
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(36px,4.5vw,64px);
+  line-height:1.06;font-weight:800;
+  letter-spacing:-1.5px;color:var(--text-dark);
+  margin-bottom:10px;
+}
+.hero h1 .green{color:var(--teal);}
+.hero h1 .blue{color:var(--navy);}
+
+.hero-rule{
+  width:64px;height:3px;
+  background:linear-gradient(90deg,var(--teal),var(--navy));
+  margin:20px 0 24px;border-radius:2px;
+}
+.hero-body{
+  color:var(--txt-secondary);font-size:clamp(14px,1.5vw,18px);
+  line-height:1.8;margin-bottom:36px;max-width:540px;
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+
+/* Score Card / Dashboard Widget */
+.score-card{
+  background:linear-gradient(145deg,#FFFFFF,#F0FDFA);
+  border:1px solid rgba(13,148,136,0.14);border-radius:18px;
+  padding:28px;position:relative;overflow:hidden;
+  box-shadow:0 12px 40px rgba(13,148,136,0.1),0 2px 8px rgba(0,0,0,0.04);
+}
+.score-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--navy),var(--teal),transparent);
+}
+.score-card-label{
+  font-family:var(--mono);color:var(--teal);
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;margin-bottom:18px;
+  display:flex;align-items:center;gap:8px;
+}
+.score-card-label::after{content:'';flex:1;height:1px;background:rgba(13,148,136,0.12);}
+.score-row{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;border-bottom:1px solid rgba(13,148,136,0.07);
+}
+.score-row:last-child{border-bottom:none;padding-bottom:0;}
+.score-icon{
+  width:30px;height:30px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+}
+.green-bg{background:rgba(13,148,136,0.08);}
+.blue-bg{background:rgba(11,30,61,0.08);}
+.amber-bg{background:rgba(245,158,11,0.08);}
+.score-lbl{flex:1;color:var(--txt-secondary);font-size:13px;}
+.score-val{font-family:var(--mono);color:var(--text-dark);font-size:13px;font-weight:600;white-space:nowrap;}
+.score-big{
+  margin-top:18px;padding-top:18px;
+  border-top:1px solid rgba(13,148,136,0.1);
+  display:flex;align-items:center;gap:16px;
+}
+.score-big-num{
+  font-family:var(--display);font-size:clamp(36px,4vw,48px);
+  font-weight:800;color:var(--teal);letter-spacing:-2px;line-height:1;
+}
+.score-big-info .label{color:var(--text-dark);font-weight:600;font-size:14px;margin-bottom:6px;}
+.score-big-info .sub{font-size:12px;}
+
+/* Progress bars */
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.prog-label{font-size:11px;color:var(--txt-secondary);min-width:110px;}
+.prog-bar{flex:1;height:5px;background:rgba(13,148,136,0.1);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--navy));border-radius:3px;}
+.prog-val{font-family:var(--mono);font-size:10px;color:var(--teal);min-width:36px;text-align:right;}
+
+/* ─── STATS ─────────────────────────────────────────── */
+.section-dark{background:#FFFFFF;padding:clamp(80px,10vw,120px) 0;}
+.section-light{background:#F0FDFA;padding:clamp(80px,10vw,120px) 0;}
+.stats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:clamp(14px,2.5vw,28px);margin-top:56px;
+}
+.stat-card{
+  background:#FFFFFF;
+  border:1px solid rgba(13,148,136,0.12);border-radius:14px;
+  padding:clamp(20px,3vw,32px);text-align:center;
+  transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s;
+  box-shadow:0 2px 12px rgba(13,148,136,0.06);
+}
+.stat-card:hover{transform:translateY(-4px);border-color:rgba(13,148,136,0.25);box-shadow:0 8px 30px rgba(13,148,136,0.1);}
+.stat-num{
+  font-family:var(--display);font-size:clamp(32px,3.5vw,44px);
+  font-weight:800;color:var(--teal);letter-spacing:-1.5px;margin-bottom:8px;
+}
+.stat-lbl{color:var(--txt-secondary);font-size:13px;line-height:1.5;}
+.stat-src{font-family:var(--mono);font-size:9px;color:var(--txt-dim);letter-spacing:1px;text-transform:uppercase;margin-top:10px;}
+
+/* ─── PROCESS ──────────────────────────────────────────── */
+.process-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:clamp(14px,2vw,24px);margin-top:48px;
+}
+.process-card{
+  background:#FFFFFF;
+  border:1px solid rgba(13,148,136,0.1);border-radius:14px;
+  padding:clamp(18px,2.5vw,28px);
+  transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s;
+  position:relative;overflow:hidden;
+  box-shadow:0 2px 10px rgba(13,148,136,0.05);
+}
+.process-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--teal),transparent);
+}
+.process-card:hover{transform:translateY(-4px);border-color:rgba(13,148,136,0.2);box-shadow:0 8px 28px rgba(13,148,136,0.1);}
+.process-card-img{
+  width:100%;height:130px;border-radius:8px;
+  background:linear-gradient(135deg,rgba(13,148,136,0.07),rgba(11,30,61,0.07));
+  margin-bottom:16px;display:flex;align-items:center;justify-content:center;font-size:40px;
+}
+.process-num{
+  font-family:var(--mono);color:var(--teal);
+  font-size:9px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.process-num::before{content:'';width:14px;height:1px;background:var(--teal);}
+.process-card h3{font-family:var(--display);color:var(--text-dark);font-size:16px;font-weight:700;margin-bottom:10px;}
+.process-card p{color:var(--txt-secondary);font-size:13px;line-height:1.65;}
+
+/* ─── PLATFORM ──────────────────────────────────────────── */
+.platform-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(16px,2.5vw,28px);margin-top:40px;
+}
+.platform-card{
+  background:#FFFFFF;
+  border:1px solid rgba(13,148,136,0.1);border-radius:16px;
+  overflow:hidden;
+  transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s;
+  box-shadow:0 2px 12px rgba(13,148,136,0.05);
+}
+.platform-card:hover{transform:translateY(-4px);border-color:rgba(13,148,136,0.22);box-shadow:0 12px 40px rgba(13,148,136,0.1);}
+.platform-card.open{border-color:rgba(13,148,136,0.25);}
+.platform-card-img{
+  width:100%;height:140px;
+  background:linear-gradient(135deg,rgba(13,148,136,0.08),rgba(11,30,61,0.08));
+  display:flex;align-items:center;justify-content:center;font-size:52px;
+  position:relative;overflow:hidden;
+}
+.platform-card .inner{padding:24px;}
+.element-badge{
+  display:inline-flex;
+  background:rgba(13,148,136,0.07);border:1px solid rgba(13,148,136,0.18);
+  color:var(--teal);font-size:9px;font-weight:700;
+  padding:3px 10px;border-radius:20px;font-family:var(--mono);
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;
+}
+.platform-card h3{font-family:var(--display);color:var(--text-dark);font-size:18px;font-weight:700;margin-bottom:10px;}
+.platform-card p{color:var(--txt-secondary);font-size:13.5px;line-height:1.65;margin-bottom:14px;}
+.more-text{
+  color:var(--txt-secondary);font-size:13px;line-height:1.65;
+  max-height:0;overflow:hidden;
+  transition:max-height 0.35s var(--ease),padding 0.35s;
+}
+.platform-card.open .more-text{max-height:300px;padding-bottom:12px;}
+.expand-btn{
+  background:none;border:1px solid rgba(13,148,136,0.2);
+  color:var(--teal);padding:7px 18px;border-radius:6px;
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;
+  transition:all 0.25s;
+}
+.expand-btn:hover{background:rgba(13,148,136,0.06);border-color:rgba(13,148,136,0.35);}
+.platform-sub{max-width:720px;margin-bottom:36px;}
+
+/* ─── ABOUT ─────────────────────────────────────────────── */
+.about-hero{background:#FFFFFF;padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,100px);}
+.about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:clamp(40px,6vw,80px);align-items:start;}
+.about-para{color:var(--txt-secondary);font-size:16px;line-height:1.8;margin-bottom:18px;}
+.about-tags{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:28px;}
+.feature-tag{
+  background:rgba(13,148,136,0.05);border:1px solid rgba(13,148,136,0.15);
+  border-radius:10px;padding:14px 16px;
+}
+.feature-tag-icon{font-size:18px;margin-bottom:6px;}
+.feature-tag-title{color:var(--text-dark);font-weight:700;font-size:13px;margin-bottom:4px;}
+.feature-tag-desc{color:var(--txt-dim);font-size:12px;line-height:1.5;}
+
+.about-card{
+  background:linear-gradient(145deg,#FFFFFF,#F0FDFA);
+  border:1px solid rgba(13,148,136,0.14);border-radius:16px;
+  padding:32px;position:relative;overflow:hidden;
+  box-shadow:0 8px 30px rgba(13,148,136,0.08);
+}
+.about-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--navy),var(--teal),transparent);
+}
+.about-kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+.about-kpi{
+  background:#FFFFFF;border:1px solid rgba(13,148,136,0.1);
+  border-radius:10px;padding:14px;
+}
+.about-kpi-num{
+  font-family:var(--display);font-size:26px;font-weight:800;
+  color:var(--teal);letter-spacing:-1px;line-height:1;margin-bottom:4px;
+}
+.about-kpi-lbl{font-size:11px;color:var(--txt-secondary);line-height:1.4;}
+.about-kpi-src{font-family:var(--mono);font-size:9px;color:var(--txt-dim);margin-top:6px;letter-spacing:0.5px;}
+
+/* ─── MARKET ─────────────────────────────────────────── */
+.market-hero{background:#FFFFFF;padding:clamp(80px,10vw,120px) 0 clamp(50px,7vw,80px);}
+.market-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,60px);align-items:start;}
+.chart-card{
+  background:#FFFFFF;border:1px solid rgba(13,148,136,0.1);
+  border-radius:16px;padding:28px;
+  box-shadow:0 4px 20px rgba(13,148,136,0.06);
+}
+.chart-card-header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:20px;
+}
+.chart-card-title{
+  font-family:var(--display);color:var(--text-dark);
+  font-size:16px;font-weight:700;
+}
+.chart-wrap{height:220px;position:relative;}
+.chart-wrap-lg{height:300px;position:relative;}
+.chart-wrap-xl{height:340px;position:relative;}
+.market-insight-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(14px,2vw,22px);margin-top:40px;
+}
+.market-insight-card{
+  background:#FFFFFF;border:1px solid rgba(13,148,136,0.1);
+  border-radius:14px;padding:22px;
+  box-shadow:0 2px 10px rgba(13,148,136,0.05);
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.market-insight-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(13,148,136,0.1);}
+.insight-icon{font-size:28px;margin-bottom:12px;}
+.insight-val{
+  font-family:var(--display);color:var(--teal);
+  font-size:clamp(22px,2.5vw,32px);font-weight:800;
+  letter-spacing:-0.8px;margin-bottom:6px;
+}
+.insight-lbl{color:var(--txt-secondary);font-size:13px;line-height:1.5;}
+.insight-src{font-family:var(--mono);font-size:9px;color:var(--txt-dim);margin-top:10px;letter-spacing:0.5px;}
+
+/* ─── COMPETITIVE TABLE ─────────────────────────────── */
+.comp-table-wrap{overflow-x:auto;margin-top:40px;border-radius:14px;border:1px solid rgba(13,148,136,0.12);}
+.comp-table{width:100%;border-collapse:collapse;background:#FFFFFF;}
+.comp-table th{
+  padding:14px 16px;font-family:var(--mono);font-size:9px;
+  font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--txt-dim);background:#F8FDFC;border-bottom:1px solid rgba(13,148,136,0.1);
+  text-align:left;white-space:nowrap;
+}
+.comp-table th.highlight-col{
+  background:rgba(13,148,136,0.07);
+  color:var(--teal);
+  border-left:1px solid rgba(13,148,136,0.15);
+  border-right:1px solid rgba(13,148,136,0.15);
+}
+.comp-table td{
+  padding:12px 16px;color:var(--txt-secondary);font-size:13px;
+  border-bottom:1px solid rgba(13,148,136,0.06);
+}
+.comp-table td.highlight-col{
+  background:rgba(13,148,136,0.03);
+  border-left:1px solid rgba(13,148,136,0.1);
+  border-right:1px solid rgba(13,148,136,0.1);
+  font-weight:600;color:var(--text-dark);
+}
+.comp-table tr:last-child td{border-bottom:none;}
+.comp-table tr:hover td{background:rgba(13,148,136,0.02);}
+.comp-check{color:var(--teal);font-size:16px;}
+.comp-x{color:#DC2626;font-size:14px;}
+.comp-partial{color:#D97706;font-size:14px;}
+
+/* ─── PRICING ────────────────────────────────────────── */
+.pricing-hero{background:#FFFFFF;padding:clamp(80px,10vw,120px) 0 clamp(60px,8vw,90px);}
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:clamp(14px,2vw,22px);margin-top:48px;align-items:start;
+}
+.price-card{
+  background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);
+  border-radius:16px;padding:clamp(20px,2.5vw,28px);
+  transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s;
+  box-shadow:0 2px 14px rgba(13,148,136,0.05);
+  position:relative;overflow:hidden;
+}
+.price-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent);}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(13,148,136,0.12);}
+.price-card.featured{border-color:var(--teal);border-width:2px;box-shadow:0 8px 30px rgba(13,148,136,0.15);}
+.price-card.featured::before{background:linear-gradient(90deg,var(--navy),var(--teal));}
+.price-tier{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--teal);margin-bottom:10px;
+}
+.price-card h3{font-family:var(--display);font-size:18px;font-weight:700;color:var(--text-dark);margin-bottom:6px;}
+.price-desc{color:var(--txt-dim);font-size:12px;line-height:1.5;margin-bottom:20px;}
+.price-num{display:flex;align-items:baseline;gap:4px;margin-bottom:6px;}
+.price-num span.currency{font-size:18px;font-weight:700;color:var(--text-dark);}
+.price-num span.amount{font-family:var(--display);font-size:36px;font-weight:800;color:var(--text-dark);letter-spacing:-1px;line-height:1;}
+.price-num span.period{font-size:12px;color:var(--txt-dim);}
+.price-ann{font-family:var(--mono);font-size:10px;color:var(--txt-dim);margin-bottom:24px;}
+.price-divider{height:1px;background:rgba(13,148,136,0.1);margin-bottom:20px;}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:24px;}
+.price-features li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--txt-secondary);}
+.price-features li::before{content:'✓';color:var(--teal);font-weight:800;flex-shrink:0;margin-top:1px;}
+.price-features li.disabled{color:var(--txt-dim);}
+.price-features li.disabled::before{content:'';color:var(--txt-dim);}
+.featured-badge{
+  position:absolute;top:16px;right:16px;
+  background:var(--teal);color:#FFFFFF;
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;
+}
+
+/* ─── CONTACT ────────────────────────────────────────── */
+.contact-hero{background:#FFFFFF;padding:clamp(80px,10vw,120px) 0 clamp(60px,8vw,90px);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);align-items:start;}
+.contact-form{
+  background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);
+  border-radius:16px;padding:36px;
+  box-shadow:0 8px 30px rgba(13,148,136,0.07);
+}
+.form-group{margin-bottom:20px;}
+.form-label{
+  display:block;font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text-dark);margin-bottom:8px;
+}
+.form-input, .form-select, .form-textarea{
+  width:100%;background:#FAFFFE;border:1px solid rgba(13,148,136,0.2);
+  border-radius:8px;padding:12px 14px;
+  color:var(--text-dark);font-size:14px;font-family:var(--font);
+  transition:border-color 0.2s,box-shadow 0.2s;outline:none;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,148,136,0.1);
+}
+.form-textarea{resize:vertical;min-height:120px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-success{
+  display:none;background:rgba(13,148,136,0.08);
+  border:1px solid rgba(13,148,136,0.25);border-radius:10px;
+  padding:20px;text-align:center;margin-top:20px;
+  color:var(--teal);font-weight:600;
+}
+
+.contact-info{display:flex;flex-direction:column;gap:24px;}
+.contact-card{
+  background:#FFFFFF;border:1px solid rgba(13,148,136,0.1);
+  border-radius:14px;padding:24px;
+  box-shadow:0 2px 12px rgba(13,148,136,0.05);
+}
+.contact-card h4{font-family:var(--display);color:var(--text-dark);font-size:16px;font-weight:700;margin-bottom:8px;}
+.contact-card p{color:var(--txt-secondary);font-size:14px;line-height:1.6;}
+.contact-detail{
+  display:flex;align-items:center;gap:10px;
+  color:var(--txt-secondary);font-size:14px;margin-top:12px;
+}
+.contact-detail-icon{font-size:16px;}
+
+/* ─── PILOT PANEL ─────────────────────────────────── */
+.pilot-panel{
+  background:linear-gradient(135deg,var(--navy) 0%,#0D4A47 50%,var(--teal-dark) 100%);
+  padding:clamp(60px,8vw,100px) 0;
+}
+.pilot-inner{
+  max-width:var(--max-w);margin:0 auto;
+  padding:0 clamp(16px,4vw,60px);
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(40px,6vw,80px);align-items:center;
+}
+.pilot-panel h2{
+  font-family:var(--display);font-size:clamp(26px,3vw,42px);
+  font-weight:800;color:#FFFFFF;letter-spacing:-0.8px;margin-bottom:16px;line-height:1.15;
+}
+.pilot-panel p{color:rgba(255,255,255,0.8);font-size:16px;line-height:1.7;margin-bottom:28px;}
+.pilot-checks{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+.pilot-check{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.9);font-size:14px;}
+.pilot-check::before{content:'✓';color:var(--teal-light);font-weight:800;font-size:16px;}
+.pilot-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.pilot-stat{
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
+  border-radius:12px;padding:20px;
+}
+.pilot-stat-num{
+  font-family:var(--display);font-size:clamp(22px,2.5vw,32px);
+  font-weight:800;color:var(--teal-light);
+  letter-spacing:-0.8px;margin-bottom:4px;
+}
+.pilot-stat-lbl{color:rgba(255,255,255,0.7);font-size:12px;line-height:1.4;}
+
+/* ─── FAQ ──────────────────────────────────────────── */
+.faq-section{padding:clamp(80px,10vw,120px) 0;background:#F0FDFA;}
+.faq-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(14px,2vw,20px);margin-top:40px;
+}
+.faq-item{
+  background:#FFFFFF;border:1px solid rgba(13,148,136,0.1);
+  border-radius:12px;overflow:hidden;
+  transition:border-color 0.25s;
+}
+.faq-item.open{border-color:rgba(13,148,136,0.25);}
+.faq-q{
+  width:100%;background:none;border:none;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 20px;cursor:pointer;text-align:left;gap:12px;
+}
+.faq-q-text{color:var(--text-dark);font-weight:600;font-size:14px;line-height:1.4;}
+.faq-icon{
+  color:var(--teal);font-size:18px;font-weight:300;
+  transition:transform 0.25s;flex-shrink:0;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.35s var(--ease);
+}
+.faq-item.open .faq-a{max-height:200px;}
+.faq-a-inner{padding:0 20px 18px;color:var(--txt-secondary);font-size:14px;line-height:1.7;}
+
+/* ─── TESTIMONIAL ───────────────────────────────────── */
+.testimonial-section{padding:clamp(80px,10vw,120px) 0;background:#FFFFFF;}
+.testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.5vw,28px);margin-top:48px;}
+.testimonial-card{
+  background:#F8FDFC;border:1px solid rgba(13,148,136,0.12);
+  border-radius:16px;padding:28px;
+  box-shadow:0 2px 12px rgba(13,148,136,0.05);
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.testimonial-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(13,148,136,0.1);}
+.testimonial-stars{color:var(--teal);font-size:16px;margin-bottom:14px;letter-spacing:2px;}
+.testimonial-text{color:var(--txt-secondary);font-size:14px;line-height:1.75;margin-bottom:18px;font-style:italic;}
+.testimonial-author{display:flex;align-items:center;gap:12px;}
+.testimonial-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--navy),var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  color:#FFFFFF;font-weight:800;font-size:14px;font-family:var(--display);
+  flex-shrink:0;
+}
+.testimonial-name{font-weight:700;font-size:14px;color:var(--text-dark);}
+.testimonial-role{font-size:12px;color:var(--txt-dim);}
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer{background:var(--text-mid);padding:clamp(60px,8vw,90px) 0 0;}
+.footer-top{
+  max-width:var(--max-w);margin:0 auto;
+  padding:0 clamp(16px,4vw,60px);
+  display:grid;grid-template-columns:1.6fr repeat(3,1fr);
+  gap:clamp(30px,5vw,60px);margin-bottom:clamp(40px,6vw,70px);
+}
+.footer-brand-logo{
+  display:flex;align-items:center;gap:12px;margin-bottom:18px;
+  font-family:var(--display);font-size:20px;font-weight:800;color:#FFFFFF;
+}
+.footer-brand-icon{
+  width:38px;height:38px;
+  background:linear-gradient(135deg,var(--teal),#14B8A6);
+  border-radius:9px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 12px rgba(13,148,136,0.4);flex-shrink:0;
+}
+.footer-brand-desc{color:rgba(255,255,255,0.55);font-size:13.5px;line-height:1.75;margin-bottom:24px;}
+.footer-socials{display:flex;gap:10px;}
+.footer-social{
+  width:34px;height:34px;border-radius:8px;
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,0.6);font-size:14px;text-decoration:none;
+  transition:all 0.22s;
+}
+.footer-social:hover{background:rgba(13,148,136,0.2);border-color:rgba(13,148,136,0.4);color:#FFFFFF;}
+.footer-col-title{
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);margin-bottom:16px;
+}
+.footer-col{display:flex;flex-direction:column;gap:8px;}
+.footer-col a{
+  color:rgba(255,255,255,0.6);font-size:13.5px;
+  cursor:pointer;transition:color 0.2s;text-decoration:none;
+}
+.footer-col a:hover{color:var(--teal-light);}
+.footer-bottom-bar{
+  max-width:var(--max-w);margin:0 auto;
+  padding:clamp(18px,2.5vw,24px) clamp(16px,4vw,60px);
+  border-top:1px solid rgba(255,255,255,0.07);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:12px;
+}
+.footer-bottom-bar p{color:rgba(255,255,255,0.35);font-size:12px;}
+.footer-bottom-bar p span{color:rgba(255,255,255,0.55);}
+.footer-bottom-links{display:flex;gap:20px;}
+.footer-bottom-links a{
+  color:rgba(255,255,255,0.35);font-size:12px;
+  cursor:pointer;transition:color 0.2s;text-decoration:none;
+}
+.footer-bottom-links a:hover{color:rgba(255,255,255,0.7);}
+
+/* ─── TRUST BAR ─────────────────────────────────────── */
+.trust-bar{
+  background:#F0FDFA;border-top:1px solid rgba(13,148,136,0.1);
+  border-bottom:1px solid rgba(13,148,136,0.1);
+  padding:20px clamp(16px,4vw,60px);
+  display:flex;align-items:center;justify-content:center;gap:clamp(24px,4vw,56px);flex-wrap:wrap;
+}
+.trust-item{
+  display:flex;align-items:center;gap:8px;
+  color:var(--txt-dim);font-size:11px;font-family:var(--mono);
+  font-weight:600;letter-spacing:0.5px;text-transform:uppercase;white-space:nowrap;
+}
+.trust-icon{font-size:14px;}
+
+/* ─── COMPARISON TABLE ─────────────────────────────── */
+.comp-section{padding:clamp(80px,10vw,120px) 0;background:#FFFFFF;}
+
+/* ─── TEAM ─────────────────────────────────────────── */
+.team-section{padding:clamp(80px,10vw,120px) 0;background:#F0FDFA;}
+.team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(20px,3vw,32px);margin-top:48px;}
+.team-card{
+  background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);
+  border-radius:16px;padding:32px;
+  box-shadow:0 4px 18px rgba(13,148,136,0.07);
+  display:flex;gap:24px;align-items:flex-start;
+}
+.team-avatar{
+  width:72px;height:72px;border-radius:14px;
+  background:linear-gradient(135deg,var(--text-muted),var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  color:#FFFFFF;font-family:var(--display);font-size:22px;font-weight:800;
+  flex-shrink:0;
+}
+.team-info{flex:1;}
+.team-name{font-family:var(--display);color:var(--text-dark);font-size:20px;font-weight:700;margin-bottom:4px;}
+.team-role{font-family:var(--mono);color:var(--teal);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.team-bio{color:var(--txt-secondary);font-size:13.5px;line-height:1.7;}
+.team-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+.team-badge{
+  background:rgba(13,148,136,0.07);border:1px solid rgba(13,148,136,0.15);
+  color:var(--teal);font-family:var(--mono);font-size:9px;font-weight:700;
+  padding:3px 9px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;
+}
+
+/* ─── HERO EXTRA ────────────────────────────────────── */
+.gradient-text{
+  background:linear-gradient(135deg,var(--teal),var(--navy));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-title{
+  font-family:var(--display);
+  font-size:clamp(36px,4.5vw,64px);
+  line-height:1.06;font-weight:800;
+  letter-spacing:-1.5px;color:var(--text-dark);
+  margin-bottom:10px;
+}
+.hero-subtitle{
+  color:var(--txt-secondary);font-size:clamp(14px,1.5vw,18px);
+  line-height:1.8;margin-bottom:24px;max-width:540px;
+}
+
+/* ─── FAQ FILTER BUTTONS ────────────────────────────── */
+.faq-cat-btn{
+  background:none;border:1.5px solid rgba(13,148,136,0.2);
+  color:var(--txt-dim);padding:8px 16px;border-radius:20px;
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;
+  transition:all 0.22s;white-space:nowrap;
+}
+.faq-cat-btn:hover,.faq-cat-btn.active{
+  background:rgba(13,148,136,0.08);border-color:var(--teal);color:var(--teal);
+}
+.faq-full-item{
+  background:#FFFFFF;border:1px solid rgba(13,148,136,0.1);
+  border-radius:12px;overflow:hidden;transition:border-color 0.25s;
+}
+.faq-full-item.open{border-color:rgba(13,148,136,0.25);}
+.faq-full-item.hidden{display:none;}
+
+/* ─── HERO IMAGE ─────────────────────────────────────── */
+.hero-side-image{
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(13,148,136,0.15),0 4px 16px rgba(0,0,0,0.08);
+  border:1px solid rgba(13,148,136,0.15);
+}
+.hero-side-image img{width:100%;display:block;border-radius:16px;}
+
+/* ─── PROCESS IMG WRAP ──────────────────────────────── */
+.process-img-wrap{
+  width:100%;height:120px;border-radius:8px;overflow:hidden;
+  background:linear-gradient(135deg,rgba(13,148,136,0.07),rgba(11,30,61,0.07));
+  margin-bottom:16px;display:flex;align-items:center;justify-content:center;
+}
+.process-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* ─── RESPONSIVE — 1100px ──────────────────────────── */
+@media(max-width:1100px){
+  .pricing-grid{grid-template-columns:repeat(2,1fr);}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .process-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+/* ─── RESPONSIVE — 900px (Tablet) ─────────────────── */
+@media(max-width:900px){
+  :root{--nav-h:64px;}
+
+  /* Layout overrides */
+  .hero-inner{grid-template-columns:1fr;gap:40px;}
+  .hero{min-height:auto;padding:clamp(60px,10vw,90px) 0 clamp(48px,8vw,70px);}
+  .hero h1{font-size:clamp(34px,6vw,50px);}
+  .hero-body{font-size:16px;}
+
+  .about-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  .pilot-inner{grid-template-columns:1fr;}
+  .market-grid{grid-template-columns:1fr;}
+  .platform-grid{grid-template-columns:repeat(2,1fr);}
+  .testimonial-grid{grid-template-columns:1fr;}
+  .team-grid{grid-template-columns:1fr;}
+  .faq-grid{grid-template-columns:1fr;}
+  .market-insight-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-top{grid-template-columns:1fr 1fr;}
+
+  /* Nav */
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .btn-demo-nav{display:none;}
+
+  /* Mini hero cards */
+  .hero-mini-card{flex:1 1 calc(50% - 12px);}
+
+  /* Inline 2-col grids in market section → 1-col */
+  .market-growth-grid{grid-template-columns:1fr !important;}
+
+  /* Arch flow: 5-col → 3x2 */
+  .arch-flow-grid{grid-template-columns:1fr 24px 1fr 24px 1fr !important;}
+
+  /* 3-col tech cards → 2-col */
+  .tech-3col{grid-template-columns:repeat(2,1fr) !important;}
+
+  /* Infra 2-col */
+  .infra-2col{grid-template-columns:1fr !important;}
+}
+
+/* ─── RESPONSIVE — 600px (Mobile) ─────────────────── */
+@media(max-width:600px){
+  :root{--nav-h:60px;}
+
+  /* Typography */
+  .section-h2{font-size:clamp(24px,7vw,36px);}
+  .para-dark,.para-light{font-size:15px;}
+
+  /* Nav Logo text */
+  .nav-logo-text span{display:none;}
+
+  /* Grid overrides */
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .process-grid{grid-template-columns:1fr;}
+  .platform-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .market-insight-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .about-tags{grid-template-columns:1fr;}
+  .about-kpi-grid{grid-template-columns:1fr 1fr;}
+  .footer-top{grid-template-columns:1fr;}
+  .team-card{flex-direction:column;gap:16px;}
+  .pilot-stats{grid-template-columns:1fr 1fr;}
+  .hero-mini-card{flex:1 1 100%;}
+  .footer-bottom-bar{flex-direction:column;text-align:center;}
+  .footer-bottom-links{flex-wrap:wrap;justify-content:center;gap:12px;}
+
+  /* Hero */
+  .hero-btns{flex-direction:column;gap:10px;}
+  .hero-btns .btn-primary,.hero-btns .btn-secondary{width:100%;justify-content:center;padding:14px 20px;}
+  .hero-badge{font-size:9px;padding:5px 10px 5px 8px;}
+  .hero h1{font-size:clamp(30px,8vw,42px);}
+  .hero-mini-stats{gap:10px;}
+  .hero-mini-card{padding:12px 14px;}
+  .hero-mini-card strong{font-size:20px;}
+
+  /* Score card */
+  .score-card{padding:20px;}
+  .score-big-num{font-size:clamp(30px,8vw,44px);}
+
+  /* Stat cards */
+  .stat-card{padding:18px 16px;}
+  .stat-num{font-size:clamp(26px,6vw,36px);}
+
+  /* Process cards */
+  .process-card{padding:20px 18px;}
+  .process-img-wrap{height:100px;}
+
+  /* Platform cards */
+  .platform-card-img{height:110px;font-size:42px;}
+
+  /* Contact form */
+  .contact-form{padding:24px 20px;}
+
+  /* FAQ filters: scrollable row */
+  #faqFilters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch;}
+  #faqFilters::-webkit-scrollbar{display:none;}
+  .faq-cat-btn{flex-shrink:0;}
+
+  /* Arch flow: single column */
+  .arch-flow-grid{display:flex !important;flex-direction:column;gap:8px;}
+  .arch-arrow{display:none !important;}
+
+  /* Tech cards full width */
+  .tech-3col{grid-template-columns:1fr !important;}
+  .infra-2col{grid-template-columns:1fr !important;}
+  .market-growth-grid{grid-template-columns:1fr !important;}
+
+  /* Pricing */
+  .price-card{padding:20px 18px;}
+  .price-num span.amount{font-size:28px;}
+
+  /* Buttons touch target */
+  .btn-primary,.btn-secondary,.btn-blue{padding:13px 20px;min-height:44px;}
+  .btn-demo-nav{padding:10px 16px;min-height:40px;}
+  .expand-btn{padding:9px 18px;min-height:40px;}
+
+  /* Footer */
+  .footer-top{gap:24px;}
+  .footer-socials{gap:8px;}
+
+  /* Pilot panel */
+  .pilot-inner{gap:32px;}
+  .pilot-checks{gap:8px;}
+
+  /* Team */
+  .team-avatar{width:56px;height:56px;font-size:18px;border-radius:10px;}
+  .team-name{font-size:17px;}
+
+  /* Testimonial */
+  .testimonial-grid{gap:14px;}
+  .testimonial-card{padding:22px 18px;}
+
+  /* Trust bar: 2 items per row */
+  .trust-bar{gap:16px;}
+  .trust-item{font-size:10px;}
+
+  /* Comp table */
+  .comp-table th,.comp-table td{padding:10px 12px;font-size:12px;}
+
+  /* Section padding tighten on mobile */
+  .section-dark,.section-light{padding:clamp(56px,8vw,80px) 0;}
+  .about-hero,.market-hero,.pricing-hero,.contact-hero{padding:clamp(56px,8vw,80px) 0 clamp(40px,6vw,60px);}
+  .faq-section,.testimonial-section,.team-section{padding:clamp(56px,8vw,80px) 0;}
+  .pilot-panel{padding:clamp(48px,7vw,70px) 0;}
+
+  /* Add-ons grid */
+  .addons-grid{grid-template-columns:1fr !important;}
+}
+
+/* ─── RESPONSIVE — 400px (Small Mobile) ───────────── */
+@media(max-width:400px){
+  .hero h1{font-size:28px;}
+  .about-kpi-grid{grid-template-columns:1fr;}
+  .pilot-stats{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:1fr;}
+  .nav-logo{font-size:18px;}
+  .nav-logo-icon{width:34px;height:34px;}
+  .contact-form{padding:18px 16px;}
+}
+</style>
+</head><500ms<body>
+
+<!-- ═══════════ NAVBAR ═══════════ -->
+<nav class="navbar">
+
+  <!-- LOGO -->
+  <a class="nav-logo" onclick="showPage('home')">
+
+    <div class="nav-logo-text">
+      RetailBrain OS
+      <span>Economic Intelligence</span>
+    </div>
+
+  </a>
+
+  <!-- LINKS -->
+  <ul class="nav-links">
+    <li>
+      <button id="nav-home" class="active" onclick="showPage('home')">
+        Home
+      </button>
+    </li>
+
+    <li>
+      <button id="nav-platform" onclick="showPage('platform')">
+        Platform
+      </button>
+    </li>
+
+    <li>
+      <button id="nav-about" onclick="showPage('about')">
+        About
+      </button>
+    </li>
+
+    <li>
+      <button id="nav-market" onclick="showPage('market')">
+        Market
+      </button>
+    </li>
+
+    <li>
+      <button id="nav-pricing" onclick="showPage('pricing')">
+        Pricing
+      </button>
+    </li>
+
+    <li>
+      <button id="nav-faq" onclick="showPage('faq')">
+        FAQ
+      </button>
+    </li>
+
+    <li>
+      <button id="nav-contact" onclick="showPage('contact')">
+        Request Demo
+      </button>
+    </li>
+  </ul>
+
+  <!-- RIGHT -->
+  <div class="nav-right">
+
+    <button class="btn-demo-nav" onclick="showPage('contact')">
+      Request Pilot
+    </button>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+
+  <button onclick="showPage('home');closeMobile()">
+    Home
+  </button>
+
+  <button onclick="showPage('platform');closeMobile()">
+    Platform
+  </button>
+
+  <button onclick="showPage('about');closeMobile()">
+    About
+  </button>
+
+  <button onclick="showPage('market');closeMobile()">
+    Market
+  </button>
+
+  <button onclick="showPage('pricing');closeMobile()">
+    Pricing
+  </button>
+
+  <button onclick="showPage('faq');closeMobile()">
+    FAQ
+  </button>
+
+  <button class="mob-cta" onclick="showPage('contact');closeMobile()">
+    Request Pilot →
+  </button>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: HOME                                     -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="hero-inner">
+
+      <!-- LEFT -->
+      <div class="hero-left">
+
+        <h1 class="hero-title">
+  The Future Of<br>
+  <span class="gradient-text">Retail Intelligence</span><br>
+  Starts Here
+</h1>
+<div class="hero-rule"></div>
+<p class="hero-subtitle">
+  RetailBrain OS transforms fragmented retail data into real-time operational intelligence, predictive actions, and margin-driven execution across every store.
+</p>
+        
+<div class="hero-rule"></div>
+        
+
+        <div class="hero-btns">
+
+          <button class="btn-primary" onclick="showPage('contact')">
+            Request Pilot →
+          </button>
+
+          <button class="btn-secondary" onclick="showPage('platform')">
+            View Platform
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="hero-right">
+
+        <div class="hero-side-image">
+          <img src="r1.jpg" alt="RetailBrain OS Dashboard">
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- STATS -->
+  <section class="section-dark">
+
+    <div class="container">
+
+      <div class="label-tag">
+        The Problem We Solve
+      </div>
+
+      <h2 class="section-h2 dark">
+        UK Retail Is Data-Rich,<br>
+        <span style="color:var(--teal)">
+          Action-Poor
+        </span>
+      </h2>
+
+      <div class="section-divider divider-green"></div>
+
+      <p class="para-dark" style="max-width:680px;">
+        The UK retail sector hemorrhages margin through delayed decisions, siloed data, and reactive operations. RetailBrain OS transforms this  from a reporting culture to an execution powerhouse.
+      </p>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <div class="stat-num">£40M</div>
+          <div class="stat-lbl">
+            Annual "shadow loss" per large organisation due to decision latency
+          </div>
+          <div class="stat-src">
+            British Retail Consortium · 2025
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-num">£5B</div>
+          <div class="stat-lbl">
+            Rise in UK retail employment costs from NI and minimum wage increases
+          </div>
+          <div class="stat-src">
+            UK Government · 2025
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-num">29%</div>
+          <div class="stat-lbl">
+            Of retail initiatives executed correctly at store level without AI precision
+          </div>
+          <div class="stat-src">
+            Deloitte Retail Report · 2024
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-num">$634B</div>
+          <div class="stat-lbl">
+            Global cost of stock-outs caused by fragmented inventory decision-making
+          </div>
+          <div class="stat-src">
+            IHL Group Research · 2024
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section-light">
+
+    <div class="container">
+
+      <div class="label-tag">
+        How It Works
+      </div>
+
+      <h2 class="section-h2 dark">
+        Sense. Simulate.<br>
+        <span style="color:var(--teal)">
+          Act.
+        </span>
+      </h2>
+
+      <div class="section-divider divider-green"></div>
+
+      <p class="para-dark" style="max-width:680px;">
+        RetailBrain OS orchestrates the full commercial cycle  from raw data ingestion to prescriptive front-line action  in under 500ms.
+      </p>
+
+      <div class="process-grid">
+
+        <!-- CARD -->
+        <div class="process-card">
+
+          <div class="process-img-wrap">
+            <img src="r2.jpg" alt="Data Ingestion">
+          </div>
+
+          <div class="process-inner">
+
+            <div class="process-num">
+              Step 01
+            </div>
+
+            <h3>
+              Data Ingestion
+            </h3>
+
+            <p>
+              POS, ERP, WFM and inventory streams are ingested and anonymised in real-time via Apache Kafka pipelines before AI processing.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- CARD -->
+        <div class="process-card">
+
+          <div class="process-img-wrap">
+            <img src="r3.jpg" alt="Economic Decision Graph">
+          </div>
+
+          <div class="process-inner">
+
+            <div class="process-num">
+              Step 02
+            </div>
+
+            <h3>
+              Economic Decision Graph
+            </h3>
+
+            <p>
+              Graph Neural Networks model SKU-store-brand relationships and predict propagation effects across the retail estate.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- CARD -->
+        <div class="process-card">
+
+          <div class="process-img-wrap">
+            <img src="r4.jpg" alt="Counterfactual Simulation">
+          </div>
+
+          <div class="process-inner">
+
+            <div class="process-num">
+              Step 03
+            </div>
+
+            <h3>
+              Counterfactual Simulation
+            </h3>
+
+            <p>
+              Thousands of Retail Economic Twin scenarios run in parallel to determine the highest-margin operational path.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- CARD -->
+        <div class="process-card">
+
+          <div class="process-img-wrap">
+            <img src="r5.jpg" alt="Precision Tasking">
+          </div>
+
+          <div class="process-inner">
+
+            <div class="process-num">
+              Step 04
+            </div>
+
+            <h3>
+              Precision Tasking
+            </h3>
+
+            <p>
+              Front-line teams receive real-time operational directives while headquarters monitors enterprise-wide performance.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: PLATFORM                                 -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="page" id="page-platform">
+  <section style="padding:clamp(80px,10vw,120px) 0;background:#FFFFFF;">
+    <div class="container">
+      <div class="label-tag">Core Platform</div>
+      <h2 class="section-h2 dark">The Economic<br><span style="color:var(--teal)">Operating System</span></h2>
+      <div class="section-divider divider-green"></div>
+      <p class="para-dark platform-sub">RetailBrain OS is the only platform that synchronises markdowns, inventory transfers, and labour allocation within a single, unified decision logic  delivering "Next Best Action" to every product in every store in under 500ms.</p>
+
+      <div class="platform-grid">
+
+        <div class="platform-card">
+          <div class="platform-card-img">
+  <img src="r6.jpg" alt="">
+</div>
+
+          <div class="inner">
+            <div class="element-badge">Core Engine</div>
+            <h3>Economic Decision Graph</h3>
+            <p>Our proprietary GNN-based engine models non-linear interdependencies across SKU, store, and brand levels  capturing propagation effects before they occur.</p>
+            <div class="more-text">
+              Unlike traditional silos, the EDG captures how a pricing decision in one SKU affects inventory across related brands and labour in neighbouring territories. Built on PyTorch and Deep Graph Library, it processes 1M+ SKU-store combinations per second with sub-500ms decision latency.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <div class="platform-card">
+          <div class="platform-card-img">
+  <img src="r7.jpg" alt="">
+</div>
+
+          <div class="inner">
+            <div class="element-badge">Simulation</div>
+            <h3>Counterfactual Retail Twin</h3>
+            <p>Run thousands of "what-if" scenarios in parallel before physical execution. Compare markdown vs. stock transfer vs. labour reallocation with quantified probability scores.</p>
+            <div class="more-text">
+              The Economic Twin reduces the 71% failure rate associated with store-level initiatives by simulating outcomes digitally first. GAN-based synthetic scenario generation addresses cold-start problems for new products and unprecedented market shifts.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <div class="platform-card">
+          <div class="platform-card-img">
+  <img src="r8.jpg" alt="">
+</div>
+
+          <div class="inner">
+            <div class="element-badge">Proprietary Metric</div>
+            <h3>Explainable Inaction Costing</h3>
+            <p>A unique mathematical framework that quantifies the daily financial penalty of "doing nothing" for every SKU  transforming the platform from a dashboard into a commercial necessity.</p>
+            <div class="more-text">
+              The EIC algorithm calculates the "shadow loss" of delayed decisions with 92% accuracy. Every alert is backed by transparent economic logic aligned with ICO guidance on AI transparency, solving the "black box" trust gap at the store level.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <div class="platform-card">
+          <div class="platform-card-img">
+  <img src="r9.jpg" alt="">
+</div>
+
+          <div class="inner">
+            <div class="element-badge">Security</div>
+            <h3>Zero-Trust Edge Architecture</h3>
+            <p>Operates autonomously within stores when cloud connectivity fails. All commercial logic encrypted and processed locally  "blackout-proof" retail intelligence.</p>
+            <div class="more-text">
+              Deployed via Docker and Kubernetes on NVIDIA Jetson or Raspberry Pi 4+ edge nodes, the system maintains millisecond-level inference without constant cloud pings. Compliant with PCI DSS, GDPR, and EU AI Act 2024 with end-to-end Zero-Trust encryption.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <div class="platform-card">
+          <div class="platform-card-img">
+  <img src="r10.jpg" alt="">
+</div>
+
+          <div class="inner">
+            <div class="element-badge">Learning</div>
+            <h3>Action-Response Memory Loop</h3>
+            <p>A continuous agentic learning engine that tracks every intervention's outcome, refining future recommendations based on real-world execution accuracy.</p>
+            <div class="more-text">
+              The reinforcement learning mechanism adapts to seasonal shifts and evolving UK consumer behaviour without requiring manual retraining. The "Speed of Culture" loop ensures the AI remains relevant to changing market conditions automatically.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+        <div class="platform-card">
+          <div class="platform-card-img">
+  <img src="r11.jpg" alt="">
+</div>
+
+          <div class="inner">
+            <div class="element-badge">Front-Line</div>
+            <h3>Precision Tasking Interface</h3>
+            <p>Store managers receive clear, data-backed directives via React Native mobile interface. Central teams see a Control Tower for group-wide strategic oversight.</p>
+            <div class="more-text">
+              Examples include: "Shift labour to Beauty Aisle: 15% demand surge predicted for 2 PM" or "Markdown SKU 4821 by 20% before 5 PM: £340 inaction cost per hour." All high-impact recommendations require manual validation by authorised store managers.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTOR MODULES -->
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Sector Modules</div>
+      <h2 class="section-h2 dark">Purpose-Built for<br><span style="color:var(--teal)">Every Retail Tier</span></h2>
+      <div class="section-divider divider-green"></div>
+      <div class="process-grid">
+        <div class="process-card">
+          <div class="platform-card-img">
+  <img src="r12.jpg" alt="Data Ingestion">
+</div>
+
+          <div class="process-num">Module 01</div>
+          <h3>Grocery & Perishables</h3>
+          <p>Shelf-life decay logic and footfall pattern analysis for automated markdown timing. Reduces food waste by 15–20%, supporting Net Zero commitments.</p>
+        </div>
+        <div class="process-card">
+          <div class="platform-card-img">
+  <img src="r13.jpg" alt="Economic Decision Graph">
+</div>
+
+          <div class="process-num">Module 02</div>
+          <h3>Fashion & Apparel</h3>
+          <p>Seasonal markdown curves, size-cluster optimisation, and regional demand sensing for fashion retailers managing high-velocity SKU turnover.</p>
+        </div>
+        <div class="process-card">
+          <div class="platform-card-img">
+  <img src="r14.jpg" alt="Counterfactual Simulation">
+</div>
+
+          <div class="process-num">Module 03</div>
+          <h3>Enterprise Multi-Brand</h3>
+          <p>Group-wide margin control across multi-territory estate. Prevents "local wins" from becoming "global losses" via cross-brand propagation modelling.</p>
+        </div>
+        <div class="process-card">
+         <div class="platform-card-img">
+  <img src="r15.jpg" alt="Precision Tasking">
+</div>
+
+          <div class="process-num">Module 04</div>
+          <h3>Boutique & Specialist</h3>
+          <p>High-end analytics typically reserved for enterprise giants, democratised for boutique groups at accessible pricing. Protects brand value through precision.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section class="section-dark">
+    <div class="container">
+      <div class="label-tag">Technology</div>
+      <h2 class="section-h2 dark">Enterprise-Grade<br><span style="color:var(--teal)">Infrastructure</span></h2>
+      <div class="section-divider divider-green"></div>
+      <div class="tech-3col" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px;">
+        <div class="process-card" style="height:auto;">
+          <div class="process-num">AI & ML</div>
+          <h3>Core AI Stack</h3>
+          <p>PyTorch · Deep Graph Library · CausalML · NVIDIA H100 GPU clusters · Google Cloud TPUs · GAN-based scenario synthesis</p>
+        </div>
+        <div class="process-card" style="height:auto;">
+          <div class="process-num">Infrastructure</div>
+          <h3>Cloud & Edge</h3>
+          <p>GCP + AWS hybrid · Azure UK South · Docker + Kubernetes · NVIDIA Jetson edge nodes · Apache Kafka + Airflow pipelines</p>
+        </div>
+        <div class="process-card" style="height:auto;">
+          <div class="process-num">Security & Ops</div>
+          <h3>Compliance Layer</h3>
+          <p>Zero-Trust architecture · AWS KMS encryption · ISO/IEC 27001 · PCI DSS · GDPR anonymisation · Prometheus + Grafana monitoring</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-platform -->
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: ABOUT                                    -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <section class="about-hero">
+    <div class="container">
+      <div class="label-tag">About RetailBrain OS</div>
+      <h2 class="section-h2 dark">Built by Retail Veterans.<br><span style="color:var(--teal)">Powered by Causal AI.</span></h2>
+      <div class="section-divider divider-green"></div>
+      <div class="about-grid">
+        <div>
+          <p class="about-para">RetailBrain OS was born from a systemic frustration. After 15+ years of managing high-volume flagship retail operations, our founders identified a persistent "Execution Gap"  the inability of retail groups to convert vast operational data into precise, cross-functional commercial actions.</p>
+          <p class="about-para">Recognising that retailers were "data-rich but action-poor," we built a decision-intelligence layer capable of running a retail group on Autopilot  combining causal ML, graph neural networks, and counterfactual simulation into a single, unified platform.</p>
+          <p class="about-para">Engineered entirely in the UK, RetailBrain OS is fine-tuned for the post-2024 "Workforce Reckoning"  where rising NI contributions and minimum wage costs have made manual trading teams a luxury no retailer can sustain.</p>
+          <div class="about-tags">
+            </div>
+
+        </div>
+
+        <div>
+          <div class="about-card">
+            <div class="score-card-label">Execution Gap Analysis · UK 2026</div>
+            <div style="margin-bottom:20px;">
+              <div class="prog-row"><span class="prog-label">Inaction Cost ID</span><div class="prog-bar"><div class="prog-fill" style="width:92%"></div></div><span class="prog-val">92%</span></div>
+              <div class="prog-row"><span class="prog-label">Decision Latency</span><div class="prog-bar"><div class="prog-fill" style="width:98%"></div></div><span class="prog-val">&lt;500ms</span></div>
+              <div class="prog-row"><span class="prog-label">vs Manual Analysis</span><div class="prog-bar"><div class="prog-fill" style="width:60%"></div></div><span class="prog-val">+60%</span></div>
+              <div class="prog-row"><span class="prog-label">System Uptime</span><div class="prog-bar"><div class="prog-fill" style="width:99.95%"></div></div><span class="prog-val">99.95%</span></div>
+            </div>
+            <div class="about-kpi-grid">
+              <div class="about-kpi"><div class="about-kpi-num">TRL 7</div><div class="about-kpi-lbl">Prototype demonstrated in operational environment</div><div class="about-kpi-src">Oxford St. Flagship Stress Test</div></div>
+              <div class="about-kpi"><div class="about-kpi-num">£131.5M</div><div class="about-kpi-lbl">Total Addressable Market across UK retail tiers</div><div class="about-kpi-src">Internal TAM Analysis · 2026</div></div>
+              <div class="about-kpi"><div class="about-kpi-num">168</div><div class="about-kpi-lbl">Institutional clients required to reach £1M ARR</div><div class="about-kpi-src">ARPU Model · £4,974/yr</div></div>
+              <div class="about-kpi"><div class="about-kpi-num">4,800+</div><div class="about-kpi-lbl">Viable retail groups in the UK addressable market</div><div class="about-kpi-src">UK Retail Data · 2025</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team-section">
+    <div class="container">
+      <div class="label-tag">Founding Team</div>
+      <h2 class="section-h2 dark">Retail Expertise Meets<br><span style="color:var(--teal)">Deep Data Science</span></h2>
+      <div class="section-divider divider-green"></div>
+      <p class="para-dark" style="max-width:640px;margin-bottom:0;">The combination of senior operational retail leadership and advanced data science is what makes RetailBrain OS uniquely defensible  the AI logic genuinely understands physical retail constraints.</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">NR</div>
+          <div class="team-info">
+            <div class="team-name">Nagaraju Reddyraju</div>
+            <div class="team-role">Co-Founder & CEO</div>
+            <p class="team-bio">15+ years of multi-site and flagship leadership across high-volume premium retail. Currently leading multi-concept operations at the Marks & Spencer Oxford Street flagship. His deep expertise in P&L management, labour cost control, and inventory optimisation drives the platform's "Operational Common Sense."</p>
+            <div class="team-badges">
+              <span class="team-badge">Marks & Spencer</span>
+              <span class="team-badge">Landmark Group</span>
+              <span class="team-badge">P&L Leadership</span>
+              <span class="team-badge">15+ Years Retail</span>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">PD</div>
+          <div class="team-info">
+            <div class="team-name">Preethi Debli</div>
+            <div class="team-role">Co-Founder & Lead Developer</div>
+            <p class="team-bio">MSc Data Science and Full-Stack Developer with 8+ years designing scalable, high-performance enterprise applications. Engineered the GNN-based Economic Decision Graph, the Zero-Trust Edge synchronisation layer, and the "blackout-proof" offline functionality. Manages Azure/AWS cloud infrastructure and Kubernetes orchestration.</p>
+            <div class="team-badges">
+              <span class="team-badge">MSc Data Science</span>
+              <span class="team-badge">GNN Architecture</span>
+              <span class="team-badge">Zero-Trust Systems</span>
+              <span class="team-badge">Cloud Engineering</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISION -->
+  <div class="pilot-panel">
+    <div class="pilot-inner">
+      <div>
+        <div class="label-tag" style="color:var(--teal-light);">Vision & Mission</div>
+        <h2>Transforming Global Retail Into Autonomous, Margin-Secure Operations</h2>
+        <p><strong style="color:#FFFFFF;">Vision:</strong> To transform global retail management into an autonomous, proactive, and margin-secure operation through prescriptive AI that empowers every front-line decision.</p>
+        <p style="margin-top:12px;"><strong style="color:#FFFFFF;">Mission:</strong> To pioneer the retail "Economic Operating System," empowering multi-brand groups to bridge the execution gap through Causal AI, Zero-Trust Edge intelligence, and mathematically vetted prescriptive tasking.</p>
+        <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="btn-primary" style="background:linear-gradient(135deg,var(--teal),#0F766E);" onclick="showPage('contact')">Join the Mission →</button>
+          <button class="btn-secondary" style="border-color:rgba(255,255,255,0.3);color:#FFFFFF;" onclick="showPage('platform')">View Platform</button>
+        </div>
+      </div>
+      <div class="pilot-stats">
+        <div class="pilot-stat"><div class="pilot-stat-num">£4.8B</div><div class="pilot-stat-lbl">UK retail tech market projected by 2028 at 7.2% CAGR</div></div>
+        <div class="pilot-stat"><div class="pilot-stat-num">$45B</div><div class="pilot-stat-lbl">Global AI in retail market projected by 2030</div></div>
+        <div class="pilot-stat"><div class="pilot-stat-num">1,000+</div><div class="pilot-stat-lbl">Target organisations for global market dominance by Year 5</div></div>
+        <div class="pilot-stat"><div class="pilot-stat-num">£3.2M</div><div class="pilot-stat-lbl">Projected Year 5 revenue under SaaS model</div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-about -->
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: MARKET                                   -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="page" id="page-market">
+  <section class="market-hero">
+    <div class="container">
+      <div class="label-tag">Market Intelligence</div>
+      <h2 class="section-h2 dark">A £131.5M Market.<br><span style="color:var(--teal)">Zero Unified Prescriptive Layer.</span></h2>
+      <div class="section-divider divider-green"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:48px;">The UK retail decision intelligence market is wide open. While incumbents offer descriptive dashboards or siloed supply chain tools, no platform delivers unified prescriptive execution across pricing, inventory, and labour  until now.</p>
+
+      <div class="market-grid">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">UK Decision Latency Sources (%)</div>
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>2026 Data</span>
+          </div>
+          <div class="chart-wrap"><canvas id="chartSector"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-card-title">Retail AI Value Gap Breakdown</div>
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>Root Causes</span>
+          </div>
+          <div class="chart-wrap"><canvas id="chartRootCause"></canvas></div>
+        </div>
+      </div>
+
+     
+    </div>
+  </section>
+
+  <!-- COMPETITOR ANALYSIS -->
+  <section class="comp-section">
+    <div class="container">
+      <div class="label-tag">Competitive Landscape</div>
+      <h2 class="section-h2 dark">No Unified Prescriptive<br><span style="color:var(--teal)">Platform Exists</span></h2>
+      <div class="section-divider divider-green"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:0;">Analysis of competitors reveals none combine causal counterfactual simulation with real-time labour-margin orchestration in a unified Zero-Trust framework  the RetailBrain OS whitespace.</p>
+      <div class="comp-table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="highlight-col">RetailBrain OS (UK)</th>
+              <th>Blue Yonder (USA)</th>
+              <th>RELEX (Finland)</th>
+              <th>SymphonyAI (USA)</th>
+              <th>Nextail (Spain)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sub-500ms Prescriptive Actions</td>
+              <td class="highlight-col"><span class="comp-check">✓</span></td>
+              <td><span class="comp-x">✗</span> Batch</td>
+              <td><span class="comp-partial">~</span> Intra-day</td>
+              <td><span class="comp-partial">~</span> Cloud</td>
+              <td><span class="comp-partial">~</span> Periodic</td>
+            </tr>
+            <tr>
+              <td>Zero-Trust Edge / Offline Resilience</td>
+              <td class="highlight-col"><span class="comp-check">✓</span></td>
+              <td><span class="comp-x">✗</span></td>
+              <td><span class="comp-x">✗</span></td>
+              <td><span class="comp-x">✗</span></td>
+              <td><span class="comp-x">✗</span></td>
+            </tr>
+            <tr>
+              <td>Explainable Inaction Costing (EIC)</td>
+              <td class="highlight-col"><span class="comp-check">✓</span></td>
+              <td><span class="comp-x">✗</span></td>
+              <td><span class="comp-x">✗</span></td>
+              <td><span class="comp-partial">~</span></td>
+              <td><span class="comp-x">✗</span></td>
+            </tr>
+            <tr>
+              <td>Labour + Inventory + Pricing Unified</td>
+              <td class="highlight-col"><span class="comp-check">✓</span></td>
+              <td><span class="comp-partial">~</span></td>
+              <td><span class="comp-x">✗</span></td>
+              <td><span class="comp-partial">~</span></td>
+              <td><span class="comp-x">✗</span></td>
+            </tr>
+            <tr>
+              <td>GNN Causal ML Architecture</td>
+              <td class="highlight-col"><span class="comp-check">✓</span></td>
+              <td><span class="comp-x">✗</span> Heuristics</td>
+              <td><span class="comp-x">✗</span> Rule-based</td>
+              <td><span class="comp-partial">~</span> Neural</td>
+              <td><span class="comp-x">✗</span> Algorithmic</td>
+            </tr>
+            <tr>
+              <td>EU AI Act 2024 Explainability</td>
+              <td class="highlight-col"><span class="comp-check">✓</span> Built-in</td>
+              <td><span class="comp-partial">~</span></td>
+              <td><span class="comp-partial">~</span></td>
+              <td><span class="comp-x">✗</span></td>
+              <td><span class="comp-x">✗</span></td>
+            </tr>
+            <tr>
+              <td>Entry Pricing (Monthly)</td>
+              <td class="highlight-col" style="color:var(--teal);font-weight:700;">£149/mo</td>
+              <td>£100k+/yr</td>
+              <td>Project-based</td>
+              <td>Enterprise only</td>
+              <td>£30k+/yr</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:56px;">
+        <div class="label-tag">Competitive Radar</div>
+        <div class="chart-card" style="margin-top:24px;">
+          <div class="chart-card-header"><div class="chart-card-title">Competitive Capability Comparison</div><span class="risk-badge risk-green"><span class="risk-dot"></span>RetailBrain leads</span></div>
+          <div class="chart-wrap-xl"><canvas id="chartRadar"></canvas></div>
+        </div>
+      </div>
+
+      <div style="margin-top:56px;">
+        <div class="label-tag">Market Growth</div>
+        <div class="market-growth-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px;">
+          <div class="chart-card">
+            <div class="chart-card-header"><div class="chart-card-title">UK & Global RetailTech Market Growth</div></div>
+            <div class="chart-wrap-lg"><canvas id="chartGrowth"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-header"><div class="chart-card-title">Platform Capability Scoring (vs. Peers)</div></div>
+            <div class="chart-wrap-lg"><canvas id="chartPerf"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECHNOLOGY SECTION -->
+  <section class="section-light" id="market-tech">
+    <div class="container">
+      <div class="label-tag">Technology</div>
+      <h2 class="section-h2 dark">The Science Behind<br><span style="color:var(--teal)">Prescriptive Retail AI</span></h2>
+      <div class="section-divider divider-green"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:48px;">RetailBrain OS combines three breakthrough AI disciplines  Causal Machine Learning, Graph Neural Networks, and Generative Adversarial simulation  into a single real-time orchestration layer. Here's what powers it.</p>
+
+      <div class="tech-3col" style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.5vw,28px);margin-bottom:40px;">
+        <div style="background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);border-radius:16px;padding:28px;box-shadow:0 4px 18px rgba(13,148,136,0.06);position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent);"></div>
+          <div class="platform-card-img">
+  <img src="r16.jpg" alt="">
+</div>
+
+          <div class="element-badge">Core Intelligence</div>
+          <h3 style="font-family:var(--display);color:var(--text-dark);font-size:18px;font-weight:700;margin:10px 0 12px;">Causal Machine Learning</h3>
+          <p style="color:var(--txt-secondary);font-size:13.5px;line-height:1.7;margin-bottom:16px;">Unlike correlation-based models, our causal inference engine understands <em>why</em> sales patterns shift  enabling true counterfactual reasoning. It answers "what would have happened if we acted differently?" before you commit resources.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>CausalML</span>
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>DoWhy Framework</span>
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>Counterfactual Graphs</span>
+          </div>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);border-radius:16px;padding:28px;box-shadow:0 4px 18px rgba(13,148,136,0.06);position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--navy),transparent);"></div>
+          <div class="platform-card-img">
+  <img src="r17.jpg" alt="">
+</div>
+
+          <div class="element-badge">Decision Architecture</div>
+          <h3 style="font-family:var(--display);color:var(--text-dark);font-size:18px;font-weight:700;margin:10px 0 12px;">Graph Neural Networks</h3>
+          <p style="color:var(--txt-secondary);font-size:13.5px;line-height:1.7;margin-bottom:16px;">GNNs model the non-linear web of dependencies across SKUs, stores, and brands  capturing how a pricing change in one aisle propagates across the entire retail estate. Processes 1M+ SKU-store combinations per second.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>PyTorch GNNs</span>
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>Deep Graph Library</span>
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>&lt;500ms Inference</span>
+          </div>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);border-radius:16px;padding:28px;box-shadow:0 4px 18px rgba(13,148,136,0.06);position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--navy));"></div>
+          <div class="platform-card-img">
+  <img src="r18.jpg" alt="">
+</div>
+
+          <div class="element-badge">Scenario Engine</div>
+          <h3 style="font-family:var(--display);color:var(--text-dark);font-size:18px;font-weight:700;margin:10px 0 12px;">Generative Adversarial Networks</h3>
+          <p style="color:var(--txt-secondary);font-size:13.5px;line-height:1.7;margin-bottom:16px;">GANs solve the "cold start" problem by generating high-fidelity synthetic retail scenarios  simulating Black Swan events, new product launches, and hyper-local demand shocks before real data exists.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>Synthetic Data Moat</span>
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>Economic Twin</span>
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>Black Swan Resilience</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ 
+
+  <!-- ADD-ONS & EXTENSIONS -->
+  <section class="section-light" id="market-addons">
+    <div class="container">
+      <div class="label-tag">Add-Ons & Extensions</div>
+      <h2 class="section-h2 dark">Extend Your<br><span style="color:var(--teal)">Intelligence Layer</span></h2>
+      <div class="section-divider divider-green"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:48px;">RetailBrain OS is modular by design. Bolt on sector-specific modules, integrate via API into your existing tech stack, or deploy physical edge nodes  each extension deepens your prescriptive capability without disrupting what already works.</p>
+
+      <div class="tech-3col" style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.5vw,28px);margin-bottom:40px;">
+
+        <div style="background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);border-radius:16px;padding:28px;box-shadow:0 4px 18px rgba(13,148,136,0.06);position:relative;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 36px rgba(13,148,136,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 18px rgba(13,148,136,0.06)'">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent);"></div>
+          <div class="platform-card-img">
+  <img src="r19.jpg" alt="">
+</div>
+
+          <div class="element-badge">Sector Module</div>
+          <h3 style="font-family:var(--display);color:var(--text-dark);font-size:17px;font-weight:700;margin:10px 0 10px;">Grocery Module</h3>
+          <p style="color:var(--txt-secondary);font-size:13.5px;line-height:1.65;margin-bottom:16px;">Shelf-life decay logic and footfall pattern analysis for perishables. Automates markdown timing to reduce food waste by 15–20% and supports Net Zero ESG reporting.</p>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:8px;"><span style="font-family:var(--display);font-size:24px;font-weight:800;color:var(--text-dark);">£1,200</span><span style="color:var(--txt-dim);font-size:12px;">/year</span></div>
+          <button class="btn-secondary" style="width:100%;justify-content:center;font-size:10px;" onclick="showPage('contact')">Add Module →</button>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);border-radius:16px;padding:28px;box-shadow:0 4px 18px rgba(13,148,136,0.06);position:relative;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 36px rgba(13,148,136,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 18px rgba(13,148,136,0.06)'">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent);"></div>
+          <div class="platform-card-img">
+  <img src="r20.jpg" alt="">
+</div>
+
+          <div class="element-badge">Sector Module</div>
+          <h3 style="font-family:var(--display);color:var(--text-dark);font-size:17px;font-weight:700;margin:10px 0 10px;">Fashion Module</h3>
+          <p style="color:var(--txt-secondary);font-size:13.5px;line-height:1.65;margin-bottom:16px;">Seasonal markdown curves, size-cluster optimisation, and trend velocity tracking tailored for fashion and apparel retailers managing high-velocity SKU turnover.</p>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:8px;"><span style="font-family:var(--display);font-size:24px;font-weight:800;color:var(--text-dark);">£999</span><span style="color:var(--txt-dim);font-size:12px;">/year</span></div>
+          <button class="btn-secondary" style="width:100%;justify-content:center;font-size:10px;" onclick="showPage('contact')">Add Module →</button>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);border-radius:16px;padding:28px;box-shadow:0 4px 18px rgba(13,148,136,0.06);position:relative;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 36px rgba(13,148,136,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 18px rgba(13,148,136,0.06)'">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent);"></div>
+          <div class="platform-card-img">
+  <img src="r21.jpg" alt="Precision Tasking">
+</div>
+
+          <div class="element-badge">Operational Add-On</div>
+          <h3 style="font-family:var(--display);color:var(--text-dark);font-size:17px;font-weight:700;margin:10px 0 10px;">Labour Orchestration</h3>
+          <p style="color:var(--txt-secondary);font-size:13.5px;line-height:1.65;margin-bottom:16px;">Advanced algorithmic shift-scheduling aligned with predicted demand surges. Eliminates 15–25% of wasted paid hours caused by operational friction and misaligned rotas.</p>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:8px;"><span style="font-family:var(--display);font-size:24px;font-weight:800;color:var(--text-dark);">£850</span><span style="color:var(--txt-dim);font-size:12px;">/year</span></div>
+          <button class="btn-secondary" style="width:100%;justify-content:center;font-size:10px;" onclick="showPage('contact')">Add Module →</button>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);border-radius:16px;padding:28px;box-shadow:0 4px 18px rgba(13,148,136,0.06);position:relative;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 36px rgba(13,148,136,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 18px rgba(13,148,136,0.06)'">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--navy),transparent);"></div>
+          <div class="platform-card-img">
+  <img src="r22.jpg" alt="API & SDK Licensing">
+</div>
+          <div class="element-badge">Integration</div>
+          <h3 style="font-family:var(--display);color:var(--text-dark);font-size:17px;font-weight:700;margin:10px 0 10px;">API & SDK Licensing</h3>
+          <p style="color:var(--txt-secondary);font-size:13.5px;line-height:1.65;margin-bottom:16px;">Embed RetailBrain's prescriptive "Inaction Costing" logic into third-party WFM, logistics, or warehouse automation systems via our API or developer SDK.</p>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;"><span style="font-family:var(--display);font-size:22px;font-weight:800;color:var(--text-dark);">£0.05–0.15</span></div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--txt-dim);margin-bottom:14px;">per action · SDK license £5–10k/yr</div>
+          <button class="btn-secondary" style="width:100%;justify-content:center;font-size:10px;" onclick="showPage('contact')">Enquire →</button>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);border-radius:16px;padding:28px;box-shadow:0 4px 18px rgba(13,148,136,0.06);position:relative;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 36px rgba(13,148,136,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 18px rgba(13,148,136,0.06)'">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--navy),transparent);"></div>
+          <div class="platform-card-img">
+  <img src="r23.jpg" alt="Zero-Trust Edge Nodes">
+</div>
+          <div class="element-badge">Hardware</div>
+          <h3 style="font-family:var(--display);color:var(--text-dark);font-size:17px;font-weight:700;margin:10px 0 10px;">Zero-Trust Edge Nodes</h3>
+          <p style="color:var(--txt-secondary);font-size:13.5px;line-height:1.65;margin-bottom:16px;">Pre-configured Edge-AI processors for store clusters. Includes the Zero-Trust secure hardware bridge, local inference engine, and 1-year maintenance  for true blackout-proof resilience.</p>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;"><span style="font-family:var(--display);font-size:24px;font-weight:800;color:var(--text-dark);">£4,500</span></div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--txt-dim);margin-bottom:14px;">per node incl. VAT · bundle discounts for 10+</div>
+          <button class="btn-secondary" style="width:100%;justify-content:center;font-size:10px;" onclick="showPage('contact')">Order Nodes →</button>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid rgba(13,148,136,0.12);border-radius:16px;padding:28px;box-shadow:0 4px 18px rgba(13,148,136,0.06);position:relative;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 36px rgba(13,148,136,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 18px rgba(13,148,136,0.06)'">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--navy));"></div>
+          <div class="platform-card-img">
+  <img src="r24.jpg" alt="Certification Programme">
+</div>
+          <div class="element-badge">Training</div>
+          <h3 style="font-family:var(--display);color:var(--text-dark);font-size:17px;font-weight:700;margin:10px 0 10px;">Certification Programme</h3>
+          <p style="color:var(--txt-secondary);font-size:13.5px;line-height:1.65;margin-bottom:16px;">Operational certification for Area Managers and Store Heads. Ensures your leadership team can fully leverage prescriptive directives and maximise ROI from day one.</p>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;"><span style="font-family:var(--display);font-size:22px;font-weight:800;color:var(--text-dark);">£1,500–£4,000</span></div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--txt-dim);margin-bottom:14px;">per group annually · scales with team size</div>
+          <button class="btn-secondary" style="width:100%;justify-content:center;font-size:10px;" onclick="showPage('contact')">Enquire →</button>
+        </div>
+
+      </div>
+
+      <div style="background:linear-gradient(135deg,var(--navy) 0%,#0D4A47 100%);border-radius:16px;padding:clamp(28px,4vw,44px);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:var(--mono);color:var(--teal-light);font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;">Build on RetailBrain OS</div>
+          <h3 style="font-family:var(--display);color:#FFFFFF;font-size:clamp(18px,2.5vw,26px);font-weight:700;margin-bottom:8px;">Developer Partner Programme</h3>
+          <p style="color:rgba(255,255,255,0.75);font-size:14px;line-height:1.6;max-width:520px;">Access our SDK documentation and sandbox environment to embed RetailBrain's Inaction Costing logic into your platform. Partner integrations include Digital Catapult, Oracle, SAP, and Blue Yonder connectors.</p>
+        </div>
+        <button class="btn-primary" style="background:linear-gradient(135deg,var(--teal),#0F766E);white-space:nowrap;" onclick="showPage('contact')">Join Partner Programme →</button>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-market -->
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: PRICING                                  -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="page" id="page-pricing">
+  <section class="pricing-hero">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:0;">
+        <div class="label-tag" style="justify-content:center;">Democratised Intelligence</div>
+        <h2 class="section-h2 dark" style="text-align:center;">Pricing Built for<br><span style="color:var(--teal)">Every Retail Tier</span></h2>
+        <div class="section-divider divider-green divider-center"></div>
+        <p class="para-dark" style="max-width:620px;margin:0 auto 16px;">90% more cost-effective than traditional enterprise consulting. Our democratised pricing model ensures access to world-class AI for boutiques and enterprise groups alike.</p>
+        <div class="risk-badge risk-green" style="display:inline-flex;"><span class="risk-dot"></span>All plans include GDPR compliance, ISO 27001 alignment, and dedicated onboarding support</div>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Specialised -->
+        <div class="price-card">
+          <div class="price-tier">Specialised</div>
+          <h3>Boutique & Specialist</h3>
+          <p class="price-desc">For independent retailers, luxury boutiques, and niche multi-brand groups.</p>
+          <div class="price-num"><span class="currency">£</span><span class="amount">149</span><span class="period">/mo</span></div>
+          <div class="price-ann">£1,000/month · £12,000/year billed annually</div>
+          <div class="price-divider"></div>
+          <ul class="price-features">
+            <li>Core Economic Decision Graph access</li>
+            <li>Real-time prescriptive tasking</li>
+            <li>Up to 5,000 SKU-store combinations</li>
+            <li>Mobile Precision Task interface</li>
+            <li>Standard support (48hr response)</li>
+            <li class="disabled">Counterfactual simulation layer</li>
+            <li class="disabled">Custom sector modules</li>
+            <li class="disabled">White-label interface</li>
+          </ul>
+          <button class="btn-secondary" style="width:100%;justify-content:center;" onclick="showPage('contact')">Request Access</button>
+        </div>
+
+        <!-- Professional -->
+        <div class="price-card featured">
+          <div class="featured-badge">Most Popular</div>
+          <div class="price-tier">Professional</div>
+          <h3>Mid-Market Chains</h3>
+          <p class="price-desc">For regional chains seeking full simulation and labour orchestration capabilities.</p>
+          <div class="price-num"><span class="currency">£</span><span class="amount">2,900</span><span class="period">/mo</span></div>
+          <div class="price-ann">£35,000/year · save 17% vs monthly</div>
+          <div class="price-divider"></div>
+          <ul class="price-features">
+            <li>Full Economic Decision Graph</li>
+            <li>Counterfactual simulation layer</li>
+            <li>Up to 100,000 SKU-store combinations</li>
+            <li>Cloud analytics and reporting</li>
+            <li>Priority ERP integration support</li>
+            <li>Labour Orchestration add-on (£850/yr)</li>
+            <li>Fashion or Grocery module (£999/yr)</li>
+            <li class="disabled">White-label interface</li>
+          </ul>
+          <button class="btn-primary" style="width:100%;justify-content:center;" onclick="showPage('contact')">Request Demo</button>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="price-card">
+          <div class="price-tier">Enterprise</div>
+          <h3>Major Retail Groups</h3>
+          <p class="price-desc">For Tier-1 multi-brand groups and international conglomerates requiring full-stack deployment.</p>
+          <div class="price-num"><span class="currency">£</span><span class="amount">12,500</span><span class="period">/mo</span></div>
+          <div class="price-ann">£150,000/year · multi-site licensing</div>
+          <div class="price-divider"></div>
+          <ul class="price-features">
+            <li>Full API integration suite</li>
+            <li>White-label Precision Task interfaces</li>
+            <li>Unlimited SKU-store combinations</li>
+            <li>24/7 strategic support</li>
+            <li>Zero-Trust Edge-AI hardware nodes</li>
+            <li>Custom ERP connectors (Oracle, SAP)</li>
+            <li>All sector modules included</li>
+            <li>Dedicated implementation lead</li>
+          </ul>
+          <button class="btn-blue" style="width:100%;justify-content:center;" onclick="showPage('contact')">Contact Sales</button>
+        </div>
+
+        <!-- Grocery -->
+        <div class="price-card">
+          <div class="price-tier">Ultra-Enterprise</div>
+          <h3>Grocery & Perishables</h3>
+          <p class="price-desc">Ultra-enterprise logic for high-volume grocery networks with decay-sensitive supply chains.</p>
+          <div class="price-num"><span class="currency">£</span><span class="amount">41.6K</span><span class="period">/mo</span></div>
+          <div class="price-ann">£500,000/year · national network pricing</div>
+          <div class="price-divider"></div>
+          <ul class="price-features">
+            <li>Shelf-life decay and footfall logic</li>
+            <li>Automated markdown trigger system</li>
+            <li>GS1-compliant data exchange</li>
+            <li>ESG and Net Zero reporting</li>
+            <li>Robotic fulfilment API integration</li>
+            <li>Multi-site edge node deployment</li>
+            <li>Regional distribution optimisation</li>
+            <li>Quarterly performance reviews</li>
+          </ul>
+          <button class="btn-blue" style="width:100%;justify-content:center;" onclick="showPage('contact')">Contact Sales</button>
+        </div>
+      </div>
+
+      <!-- ADD-ONS -->
+      <div style="margin-top:64px;">
+        <div class="label-tag">Add-Ons & Extensions</div>
+        <h3 class="section-h2 dark" style="font-size:clamp(22px,2.5vw,32px);margin-bottom:24px;">Extend Your<br><span style="color:var(--teal)">Intelligence Layer</span></h3>
+        <div class="addons-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+          <div class="process-card" style="height:auto;">
+            <div class="process-num">API Licensing</div>
+            <h3>API & SDK Access</h3>
+            <p>£0.05–0.15 per action recommendation · SDK developer license £5,000–£10,000/yr for third-party WFM and logistics platforms.</p>
+          </div>
+          <div class="process-card" style="height:auto;">
+            <div class="process-num">Hardware</div>
+            <h3>Edge-AI Nodes</h3>
+            <p>£4,500 per node (incl. VAT) · Zero-Trust secure hardware bridge, local inference engine, 1-year maintenance included.</p>
+          </div>
+          <div class="process-card" style="height:auto;">
+            <div class="process-num">Training</div>
+            <h3>Certification Programme</h3>
+            <p>£1,500–£4,000/year per group · Operational certification for Area Managers and Store Heads to maximise platform utilisation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="container">
+      <div style="text-align:center;">
+        <div class="label-tag" style="justify-content:center;">Common Questions</div>
+        <h2 class="section-h2 dark">Frequently Asked<br><span style="color:var(--teal)">Questions</span></h2>
+        <div class="section-divider divider-green divider-center"></div>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How quickly can RetailBrain OS integrate with our existing ERP?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Standardised API connectors are ready for Oracle Retail, SAP, and Blue Yonder. For other systems, our ETL pipeline adapts within 2–4 weeks. Most clients see their first live prescriptive action within 30 days of kickoff.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What happens if our stores lose cloud connectivity?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Our Zero-Trust Edge Architecture means each store runs its own local inference engine. Commercial decisions continue without interruption  the system is "blackout-proof" by design, not a cloud-dependent add-on.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How does Explainable Inaction Costing differ from a standard dashboard?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">A dashboard tells you what happened. Inaction Costing tells you what it costs per hour to not act  for every SKU, in every store. This transforms optional analytics into a quantified financial imperative that drives immediate action.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Is RetailBrain OS compliant with the EU AI Act 2024?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Yes. Every recommendation is backed by an explainable economic "Why" aligned with ICO transparency guidance. Our compliance strategy includes UKCA/CE certification, ISO 27001, PCI DSS, and GDPR, with human-in-the-loop validation for all high-impact actions.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What data does RetailBrain OS require to begin?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">We require POS transaction history (min. 12 months), current inventory data, and basic labour schedule exports. Our GAN-based synthetic data engine can supplement gaps in historical data during the onboarding phase.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How does pricing scale for multi-site enterprise rollouts?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Enterprise and Grocery tiers include unlimited SKU-store combinations with volume-based API pricing (£0.05–0.15 per action). Multi-site hardware node bundles are available with discounted pricing for 10+ locations.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-pricing -->
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: FAQ                                      -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="page" id="page-faq">
+  <section style="padding:clamp(80px,10vw,120px) 0 clamp(50px,6vw,70px);background:#FFFFFF;">
+    <div class="container">
+      <div class="label-tag">Knowledge Base</div>
+      <h2 class="section-h2 dark">Everything You Need<br><span style="color:var(--teal)">to Know</span></h2>
+      <div class="section-divider divider-green"></div>
+      <p class="para-dark" style="max-width:640px;margin-bottom:40px;">Answers to the most common questions about RetailBrain OS  from technical integration to pricing, compliance, and deployment timelines.</p>
+
+      <!-- FAQ Search -->
+      <div style="max-width:560px;margin-bottom:40px;position:relative;">
+        <input id="faqSearch" type="text" placeholder="Search questions..." oninput="filterFAQ(this.value)" style="width:100%;background:#F8FDFC;border:1.5px solid rgba(13,148,136,0.2);border-radius:10px;padding:13px 16px 13px 46px;color:var(--text-dark);font-size:14px;font-family:var(--font);outline:none;transition:border-color 0.2s,box-shadow 0.2s;">
+        <span style="position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;">🔍</span>
+      </div>
+
+      <!-- Category Filters -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px;" id="faqFilters">
+        <button onclick="filterByCategory('all')" class="faq-cat-btn active" data-cat="all">All Questions</button>
+        <button onclick="filterByCategory('integration')" class="faq-cat-btn" data-cat="integration">Integration</button>
+        <button onclick="filterByCategory('security')" class="faq-cat-btn" data-cat="security">Security & Compliance</button>
+        <button onclick="filterByCategory('pricing')" class="faq-cat-btn" data-cat="pricing">Pricing</button>
+        <button onclick="filterByCategory('technology')" class="faq-cat-btn" data-cat="technology">Technology</button>
+        <button onclick="filterByCategory('deployment')" class="faq-cat-btn" data-cat="deployment">Deployment</button>
+      </div>
+
+      <div id="faqAllItems" style="display:flex;flex-direction:column;gap:10px;">
+
+        <!-- Integration -->
+        <div class="faq-full-item" data-cat="integration" data-q="how quickly can retailbrain os integrate with our existing erp system oracle sap">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How quickly can RetailBrain OS integrate with our existing ERP system?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Standardised API connectors are ready for Oracle Retail, SAP, and Blue Yonder. For other systems, our proprietary ETL pipeline adapts within 2–4 weeks. Most clients receive their first live prescriptive action within <strong>30 days of kickoff</strong>. We provide a dedicated implementation lead and full technical documentation throughout.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="integration" data-q="which pos erp wfm systems does retailbrain os support connect">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Which POS, ERP, and WFM systems does RetailBrain OS support?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">We have standardised connectors for <strong>Oracle Retail, SAP, Blue Yonder, Lightspeed, and Deputy</strong>. For workforce management, we integrate with most major WFM platforms via our FastAPI backend. Our GS1-compliant data exchange layer ensures compatibility with legacy ERP systems, and our ETL pipeline cleanses and normalises fragmented data before it reaches the AI engine.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="integration" data-q="what data does retailbrain os require to begin get started minimum data">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What data does RetailBrain OS require to get started?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">We require <strong>POS transaction history (minimum 12 months)</strong>, current inventory levels, and basic labour schedule exports. Our GAN-based synthetic scenario engine supplements gaps in historical data during onboarding, solving the cold-start problem for newer product lines or recently opened stores. All data is anonymised before processing.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="integration" data-q="can we use retailbrain os api sdk third party embed developer">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Can we embed RetailBrain OS logic into our own platform via API?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Yes. Our <strong>Developer Partner Programme</strong> provides SDK documentation, a sandbox environment, and API access at £0.05–0.15 per prescriptive action recommendation. SDK developer licenses start at £5,000–£10,000/year. This enables third-party logistics platforms, WFM providers, and warehouse automation systems to embed our Inaction Costing logic natively.</div></div>
+        </div>
+
+        <!-- Security & Compliance -->
+        <div class="faq-full-item" data-cat="security" data-q="gdpr compliance data protection uk eu retailbrain os">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How does RetailBrain OS handle GDPR and UK data protection?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">RetailBrain OS is built on a <strong>Privacy-by-Design architecture</strong>. All personnel and performance data are anonymised before AI processing via proprietary ETL pipelines that strip PII from labour logs. We adhere to UK and EU GDPR data minimisation principles, maintain a completed DPIA for store-level personnel data, and store all enterprise data in encrypted UK-based sovereign data centres.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="security" data-q="eu ai act 2024 compliance explainability transparency">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Is RetailBrain OS compliant with the EU AI Act 2024?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Yes. Every recommendation is backed by an explainable economic "Why"  aligned with ICO guidance on AI transparency and the EU AI Act 2024 explainability requirements. Our <strong>Explainable Inaction Costing</strong> layer ensures no "black box" decisions. All high-impact recommendations require manual verification by authorised store managers before execution (human-in-the-loop).</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="security" data-q="zero trust edge blackout offline connectivity store resilience">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What happens if our stores lose cloud connectivity?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Our <strong>Zero-Trust Edge Architecture</strong> means each store runs its own local inference engine on NVIDIA Jetson or Raspberry Pi 4+ hardware. Commercial decisions continue without interruption  there is no dependency on constant cloud connectivity. The system is "blackout-proof" by design, not a cloud-dependent add-on. Local data is encrypted end-to-end and synchronised securely when connectivity resumes.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="security" data-q="iso 27001 pci dss certification security standards">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What security certifications does RetailBrain OS hold?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">RetailBrain OS is aligned with <strong>ISO/IEC 27001, PCI DSS, GDPR, and NCSC Cyber Essentials Plus</strong> standards. AWS KMS encryption is applied at rest and in transit. We conduct biannual internal compliance audits and annual third-party penetration testing. UKCA and CE certification submissions are targeted for Q4 2025 to support enterprise deployment.</div></div>
+        </div>
+
+        <!-- Pricing -->
+        <div class="faq-full-item" data-cat="pricing" data-q="pricing plans tiers how much does retailbrain os cost">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How does pricing work across the different tiers?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">RetailBrain OS offers four SaaS tiers: <strong>Specialised (£149/mo)</strong> for boutiques, <strong>Professional (£2,900/mo)</strong> for mid-market chains, <strong>Enterprise (£12,500/mo)</strong> for major groups, and <strong>Grocery/Ultra-Enterprise (£41,600/mo)</strong> for national supermarket networks. Annual billing provides further savings. All tiers include GDPR compliance, ISO 27001 alignment, and onboarding support.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="pricing" data-q="multi-site enterprise scaling pricing unlimited stores">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How does pricing scale for multi-site enterprise rollouts?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Enterprise and Grocery tiers include <strong>unlimited SKU-store combinations</strong> with volume-based API pricing (£0.05–0.15 per action recommendation). Multi-site hardware node bundles are available with discounted pricing for 10+ locations. Custom framework agreements are available for Tier-1 retail groups with 100+ stores  contact our sales team for a bespoke proposal.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="pricing" data-q="free trial pilot programme risk guarantee roi">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Do you offer a free trial or pilot programme?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Yes. Our <strong>UK Pilot Programme</strong> provides a bespoke "Inaction Cost" audit using your own anonymised historical data  before you commit to any subscription. We provide a validated margin recovery report at 90 days. If RetailBrain OS doesn't demonstrate measurable ROI during the pilot, you pay nothing beyond the pilot fee. Contact us to apply.</div></div>
+        </div>
+
+        <!-- Technology -->
+        <div class="faq-full-item" data-cat="technology" data-q="what is inaction costing explainable eic difference dashboard">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How does Explainable Inaction Costing differ from a standard analytics dashboard?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">A dashboard tells you <em>what happened last week</em>. Inaction Costing tells you <strong>what it costs per hour to not act right now</strong>  for every SKU, in every store. The EIC algorithm calculates the "shadow loss" of delayed decisions with 92% accuracy, quantifying the daily financial penalty of keeping an underperforming item on shelf versus acting. This transforms optional analytics into a quantified financial imperative.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="technology" data-q="gnn graph neural network how does economic decision graph work explain">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How does the Economic Decision Graph (GNN) actually work?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Our Graph Neural Network models retail as a connected network  each SKU, store, and brand is a "node," with relationships (sales velocity, stock levels, labour capacity) as "edges." This allows the system to understand how a pricing change in one aisle <strong>propagates across the entire estate</strong> before you action it. Built on PyTorch and Deep Graph Library, it processes 1M+ SKU-store combinations per second.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="technology" data-q="gan synthetic data cold start new product scenario simulation">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What is the GAN-based scenario engine and why does it matter?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Generative Adversarial Networks (GANs) solve the "cold start" problem in retail AI  when you launch a new product or face an unprecedented market event, there's no historical data. Our GAN engine <strong>creates high-fidelity synthetic retail scenarios</strong> to train the model on situations it hasn't yet encountered, including "Black Swan" events like hyper-inflation, rapid supply chain collapse, or new product demand patterns.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="technology" data-q="action response memory loop agentic learning continuous improvement">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Does the platform learn and improve over time automatically?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Yes. The <strong>Action-Response Memory Loop</strong> is a continuous reinforcement learning engine that tracks whether each recommended action (e.g., a specific markdown) achieved its predicted outcome. It automatically refines future models based on real-world execution accuracy  adapting to seasonal shifts and changing consumer behaviour without manual retraining by your team.</div></div>
+        </div>
+
+        <!-- Deployment -->
+        <div class="faq-full-item" data-cat="deployment" data-q="how long deployment implementation setup go live timeline">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How long does a full deployment take from kickoff to go-live?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">For standard ERP integrations (Oracle, SAP, Blue Yonder), <strong>first live prescriptive actions appear within 30 days</strong>. Edge-AI node deployment for physical stores adds 1–2 weeks for shipping and configuration. A full enterprise rollout across multiple sites typically completes within 60–90 days, including model calibration, staff training, and compliance documentation.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="deployment" data-q="edge ai node hardware what is needed physical store deployment">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What physical hardware is needed in each store?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">For blackout-proof offline operation, we deploy pre-configured <strong>Zero-Trust Edge-AI nodes</strong> (NVIDIA Jetson Orin or Intel Xeon-based edge servers). These are £4,500 per node (incl. VAT) and include the Zero-Trust secure hardware bridge, local inference engine, and 1-year maintenance. For cloud-only operation (Professional tier and above), no additional hardware is required beyond your existing handhelds and POS terminals.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="deployment" data-q="staff training store managers onboarding support certification">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What training and support is provided for store managers?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">All plans include onboarding support and access to our Precision Tasking mobile interface documentation. Our <strong>Operational Certification Programme</strong> (£1,500–£4,000/year per group) trains Area Managers and Store Heads to maximise prescriptive intelligence from day one. Enterprise clients receive a dedicated implementation lead, 24/7 strategic support, and quarterly performance reviews.</div></div>
+        </div>
+
+        <div class="faq-full-item" data-cat="deployment" data-q="trl readiness how ready is the product available now">
+          <button class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">How mature is the RetailBrain OS platform  is it ready for enterprise deployment?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">RetailBrain OS has reached <strong>TRL 7 (System Prototype Demonstrated in Operational Environment)</strong>, validated through stress-testing in simulated high-volume flagship environments modelled on Oxford Street sites. The system maintains 92% Inaction Cost identification accuracy, sub-500ms decision latency, and 99.95% uptime. We are targeting TRL 8 status with financial proof-of-concept in live pilot stores by mid-2026.</div></div>
+        </div>
+
+      </div>
+
+      <!-- CTA -->
+      <div style="margin-top:56px;text-align:center;background:rgba(13,148,136,0.04);border:1px solid rgba(13,148,136,0.12);border-radius:16px;padding:clamp(32px,5vw,52px);">
+        <div class="label-tag" style="justify-content:center;">Still Have Questions?</div>
+        <h3 style="font-family:var(--display);color:var(--text-dark);font-size:clamp(20px,2.5vw,30px);font-weight:700;margin:8px 0 12px;">Talk to Our Team Directly</h3>
+        <p style="color:var(--txt-secondary);font-size:15px;line-height:1.7;max-width:500px;margin:0 auto 28px;">Our implementation leads are retail and data science experts. We'll answer any technical, commercial, or compliance question  and can run a bespoke Inaction Cost audit on your anonymised data.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn-primary" onclick="showPage('contact')">Request a Pilot →</button>
+          <button class="btn-secondary" onclick="showPage('pricing')">View Pricing</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-faq -->
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: CONTACT                                  -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+
+  <section class="contact-hero">
+    <div class="container">
+
+      <div class="label-tag">Get Started</div>
+
+      <h2 class="section-h2 dark">
+        Request Your<br>
+        <span style="color:var(--teal)">Pilot Programme</span>
+      </h2>
+
+      <div class="section-divider divider-green"></div>
+
+      <p class="para-dark" style="max-width:640px;margin-bottom:48px;">
+        Join the UK's first cohort of retailers deploying prescriptive AI at the store-floor level.
+        Request a bespoke "Inaction Cost" audit using your own anonymised data and see your
+        margin recovery opportunity before you commit.
+      </p>
+
+      <div class="contact-grid">
+
+        <!-- LEFT -->
+        <div class="contact-form">
+
+          <h3 style="font-family:var(--display);color:var(--text-dark);font-size:20px;font-weight:700;margin-bottom:24px;">
+            Pilot Application Form
+          </h3>
+
+          <!-- WEB3FORMS -->
+          <form action="https://api.web3forms.com/submit" method="POST">
+
+            <!-- ACCESS KEY -->
+            <input type="hidden" name="access_key" value="6e3a4738-55bf-4ebc-b097-954f6454707a">
+
+            <!-- OPTIONAL -->
+            <input type="hidden" name="subject" value="New RetailBrain Pilot Application">
+            <input type="hidden" name="from_name" value="RetailBrain Website">
+
+            <div class="form-row">
+
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input
+                  class="form-input"
+                  type="text"
+                  name="first_name"
+                  placeholder="James"
+                  required
+                >
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input
+                  class="form-input"
+                  type="text"
+                  name="last_name"
+                  placeholder="Mitchell"
+                  required
+                >
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Business Email</label>
+              <input
+                class="form-input"
+                type="email"
+                name="email"
+                placeholder="james@retailgroup.co.uk"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Organisation</label>
+              <input
+                class="form-input"
+                type="text"
+                name="organisation"
+                placeholder="Mitchell Retail Group"
+                required
+              >
+            </div>
+
+            <div class="form-row">
+
+              <div class="form-group">
+                <label class="form-label">Retail Sector</label>
+
+                <select class="form-select" name="sector">
+
+                  <option>Enterprise Multi-Brand</option>
+                  <option>Mid-Market Apparel</option>
+                  <option>Grocery / Perishables</option>
+                  <option>Boutique / Specialist</option>
+                  <option>Department Store</option>
+                  <option>Other</option>
+
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Number of Stores</label>
+
+                <select class="form-select" name="stores">
+
+                  <option>1–5 stores</option>
+                  <option>6–25 stores</option>
+                  <option>26–100 stores</option>
+                  <option>100–500 stores</option>
+                  <option>500+ stores</option>
+
+                </select>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Current ERP / POS Systems</label>
+
+              <input
+                class="form-input"
+                type="text"
+                name="systems"
+                placeholder="e.g. SAP, Oracle Retail, Lightspeed..."
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Primary Challenge</label>
+
+              <textarea
+                class="form-textarea"
+                name="message"
+                placeholder="Describe your current margin protection or labour efficiency challenges..."
+                required
+              ></textarea>
+            </div>
+
+            <button
+              class="btn-primary"
+              type="submit"
+              style="width:100%;justify-content:center;"
+            >
+              Submit Pilot Application →
+            </button>
+
+          </form>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="contact-info">
+
+          <!-- CARD -->
+          <div class="contact-card">
+
+            <h4>What Happens Next?</h4>
+
+            <p>
+              After submitting your application, a RetailBrain OS implementation lead
+              will contact you within 48 hours to:
+            </p>
+
+            <div class="pilot-checks" style="margin-top:14px;margin-bottom:0;">
+
+              <div class="pilot-check" style="color:var(--txt-secondary);font-size:13px;">
+                Schedule a discovery call with your trading team
+              </div>
+
+              <div class="pilot-check" style="color:var(--txt-secondary);font-size:13px;">
+                Request anonymised historical POS data for audit
+              </div>
+
+              <div class="pilot-check" style="color:var(--txt-secondary);font-size:13px;">
+                Deliver a bespoke Inaction Cost report within 2 weeks
+              </div>
+
+              <div class="pilot-check" style="color:var(--txt-secondary);font-size:13px;">
+                Agree pilot scope, timeline, and success metrics
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- CONTACT CARD -->
+          <div class="contact-card">
+
+            <h4>Get in Touch Directly</h4>
+
+            <div class="contact-detail">
+              <span class="contact-detail-icon">
+                <i class="fas fa-envelope"></i>
+              </span>
+              pilots@retailbrain.ai
+            </div>
+
+            <div class="contact-detail">
+              <span class="contact-detail-icon">
+                <i class="fas fa-location-dot"></i>
+              </span>
+              London, United Kingdom
+            </div>
+
+            <div class="contact-detail">
+              <span class="contact-detail-icon">
+                <i class="fas fa-clock"></i>
+              </span>
+              Response within 48 business hours
+            </div>
+
+          </div>
+
+          <!-- GUARANTEE -->
+          <div class="contact-card" style="background:linear-gradient(135deg,rgba(13,148,136,0.05),rgba(11,30,61,0.04));">
+
+            <h4>Pilot Programme Guarantee</h4>
+
+            <p>
+              Our pilot programme is designed for zero-risk evaluation.
+              We provide a validated margin recovery report at 90 days.
+              If RetailBrain OS doesn't demonstrate measurable ROI,
+              you pay nothing beyond the pilot fee.
+            </p>
+
+            <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+
+              <span class="risk-badge risk-green">
+                <span class="risk-dot"></span>
+                90-Day ROI Report
+              </span>
+
+              <span class="risk-badge risk-blue">
+                <span class="risk-dot"></span>
+                No Lock-In
+              </span>
+
+              <span class="risk-badge risk-green">
+                <span class="risk-dot"></span>
+                GDPR Compliant
+              </span>
+
+            </div>
+
+          </div>
+
+          <!-- KPI -->
+          <div class="about-kpi-grid">
+
+            <div class="about-kpi">
+              <div class="about-kpi-num">30</div>
+              <div class="about-kpi-lbl">
+                Days to first live prescriptive action from integration
+              </div>
+            </div>
+
+            <div class="about-kpi">
+              <div class="about-kpi-num">£149</div>
+              <div class="about-kpi-lbl">
+                Entry tier per month — cheaper than one analyst hour daily
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+
+  <div class="footer-top">
+
+    <!-- BRAND -->
+    <div>
+
+      <div class="footer-brand-logo">
+        RetailBrain OS
+      </div>
+
+      <p class="footer-brand-desc">
+        The UK's first AI-powered Economic Operating System for retail. Transforming fragmented data into real-time prescriptive actions  securely, ethically, and with blackout-proof edge resilience.
+      </p>
+
+      <div class="footer-socials">
+
+        <a class="footer-social" href="#" title="LinkedIn">
+          in
+        </a>
+
+        <a class="footer-social" href="#" title="Twitter">
+          𝕏
+        </a>
+
+        <a class="footer-social" href="#" title="GitHub">
+          ⌥
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- PLATFORM -->
+    <div>
+
+      <div class="footer-col-title">
+        Platform
+      </div>
+
+      <div class="footer-col">
+
+        <a onclick="showPage('platform')">
+          Economic Decision Graph
+        </a>
+
+        <a onclick="showPage('platform')">
+          Inaction Costing Engine
+        </a>
+
+        <a onclick="showPage('platform')">
+          Counterfactual Twin
+        </a>
+
+        <a onclick="showPage('platform')">
+          Zero-Trust Edge
+        </a>
+
+        <a onclick="showPage('platform')">
+          Precision Tasking
+        </a>
+
+        <a onclick="showPage('market')">
+          Market Analysis
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- SOLUTIONS -->
+    <div>
+
+      <div class="footer-col-title">
+        Solutions
+      </div>
+
+      <div class="footer-col">
+
+        <a onclick="showPage('platform')">
+          Enterprise Multi-Brand
+        </a>
+
+        <a onclick="showPage('platform')">
+          Mid-Market Chains
+        </a>
+
+        <a onclick="showPage('platform')">
+          Grocery & Perishables
+        </a>
+
+        <a onclick="showPage('platform')">
+          Boutique & Specialist
+        </a>
+
+        <a onclick="showPage('pricing')">
+          Pricing & Plans
+        </a>
+
+        <a onclick="showPage('contact')">
+          Pilot Programme
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- COMPANY -->
+    <div>
+
+      <div class="footer-col-title">
+        Company
+      </div>
+
+      <div class="footer-col">
+
+        <a onclick="showPage('about')">
+          About Us
+        </a>
+
+        <a onclick="showPage('about')">
+          Founding Team
+        </a>
+
+        <a onclick="showPage('about')">
+          Vision & Mission
+        </a>
+
+        <a onclick="showPage('contact')">
+          Request Demo
+        </a>
+
+        <a onclick="showPage('contact')">
+          Press & Media
+        </a>
+
+        <a onclick="showPage('contact')">
+          Careers
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="footer-bottom-bar">
+
+    <p>
+      © 2026 <span>RetailBrain OS</span> · London, UK · UK GDPR Compliant · ISO 27001 Aligned · EU AI Act 2024 Ready · Confidential
+    </p>
+
+    <div class="footer-bottom-links">
+
+      <a onclick="showPage('contact')">
+        Privacy Policy
+      </a>
+
+      <a onclick="showPage('contact')">
+        Terms of Service
+      </a>
+
+      <a onclick="showPage('contact')">
+        Innovator Founder Visa · Business Plan Confidential
+      </a>
+
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script>
+/* ─── PAGE NAV ───────────────────────────────── */
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b=>b.classList.remove('active'));
+  const pg=document.getElementById('page-'+name);
+  if(pg){pg.classList.add('active');}
+  const btn=document.getElementById('nav-'+name);
+  if(btn){btn.classList.add('active');}
+  window.scrollTo({top:0,behavior:'instant'});
+  if(name==='market'&&!window.marketChartsLoaded){initMarketCharts();window.marketChartsLoaded=true;}
+  if(name==='faq'){initFAQSearch();}
+}
+
+function toggleCard(btn){
+  const card=btn.closest('.platform-card');
+  card.classList.toggle('open');
+  btn.innerHTML=card.classList.contains('open')?'Show Less':'Learn More';
+}
+
+function toggleFAQ(el){
+  el.parentElement.classList.toggle('open');
+}
+
+function closeMobile(){
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+document.getElementById('hamburger').addEventListener('click',function(){
+  this.classList.toggle('open');
+  document.getElementById('mobileNav').classList.toggle('open');
+});
+
+function handleSubmit(e){
+  e.preventDefault();
+  document.getElementById('formSuccess').style.display='block';
+}
+
+/* ─── FAQ SEARCH & FILTER ────────────────────────── */
+function initFAQSearch(){
+  const input=document.getElementById('faqSearch');
+  if(input) input.value='';
+  filterByCategory('all');
+}
+
+function filterFAQ(val){
+  const q=val.toLowerCase();
+  document.querySelectorAll('.faq-full-item').forEach(item=>{
+    const text=(item.dataset.q||'')+(item.querySelector('.faq-q-text')?.textContent||'');
+    item.classList.toggle('hidden',!text.toLowerCase().includes(q));
+  });
+}
+
+function filterByCategory(cat){
+  document.querySelectorAll('.faq-full-item').forEach(item=>{
+    item.classList.toggle('hidden',cat!=='all'&&item.dataset.cat!==cat);
+  });
+  document.querySelectorAll('.faq-cat-btn').forEach(btn=>{
+    btn.classList.toggle('active',btn.dataset.cat===cat);
+  });
+}
+
+/* ─── CHART THEME ────────────────────────────── */
+const TEAL='rgba(13,148,136,1)';
+const TEAL2='rgba(13,148,136,0.7)';
+const TEAL3='rgba(13,148,136,0.35)';
+const NAVY='rgba(11,30,61,0.85)';
+const NAVY2='rgba(11,30,61,0.55)';
+const GRID='rgba(13,148,136,0.07)';
+const MUTED='rgba(100,130,130,0.8)';
+
+Chart.defaults.font.family="'IBM Plex Mono', monospace";
+Chart.defaults.font.size=11;
+Chart.defaults.color=MUTED;
+
+/* ─── MARKET CHARTS ──────────────────────────── */
+function initMarketCharts(){
+
+  // Decision Latency Sources
+  new Chart(document.getElementById('chartSector').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['Manual Markdown Decisions','Siloed Stock Data','Labour Misallocation','No Counterfactual Logic','Governance & Compliance','No Inaction Visibility'],
+      datasets:[{
+        label:'% Contribution to UK Retail Margin Loss',
+        data:[48,38,28,22,16,14],
+        backgroundColor:[TEAL,TEAL2,TEAL3,'rgba(13,148,136,0.2)',NAVY2,'rgba(11,30,61,0.3)'],
+        borderRadius:5,barPercentage:0.6
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:GRID},ticks:{color:MUTED,callback:v=>v+'%'}},y:{grid:{display:false},ticks:{color:MUTED,font:{size:10}}}}
+    }
+  });
+
+  // Value Gap Breakdown
+  new Chart(document.getElementById('chartRootCause').getContext('2d'),{
+    type:'doughnut',
+    data:{
+      labels:['No Unified Decision Logic (40%)','Decision Latency >24hrs (32%)','Labour-Margin Silo (24%)','No Inaction Costing (34%)','Legacy Batch Reporting (28%)'],
+      datasets:[{
+        data:[40,32,24,34,28],
+        backgroundColor:[TEAL,TEAL2,TEAL3,NAVY,NAVY2],
+        borderColor:['rgba(13,148,136,0.9)','rgba(13,148,136,0.7)','rgba(13,148,136,0.4)','rgba(11,30,61,0.7)','rgba(11,30,61,0.5)'],
+        borderWidth:1.5
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:10,font:{size:10}}}}
+    }
+  });
+
+  // Radar Competitive
+  new Chart(document.getElementById('chartRadar').getContext('2d'),{
+    type:'radar',
+    data:{
+      labels:['Real-Time Prescriptive (<500ms)','Explainable Inaction Costing','Zero-Trust Edge Resilience','Labour + Inventory + Price Sync','Causal ML Architecture','EU AI Act Compliance'],
+      datasets:[
+        {label:'RetailBrain OS',data:[5,5,5,5,5,5],backgroundColor:'rgba(13,148,136,0.1)',borderColor:TEAL,borderWidth:2.5,pointBackgroundColor:TEAL},
+        {label:'Blue Yonder',data:[1,1,1,2,2,2],backgroundColor:'rgba(11,30,61,0.05)',borderColor:NAVY2,borderWidth:1.5,pointBackgroundColor:NAVY2},
+        {label:'RELEX Solutions',data:[2,1,1,1,2,2],backgroundColor:'rgba(100,180,180,0.05)',borderColor:'rgba(100,180,180,0.5)',borderWidth:1.5,pointBackgroundColor:'rgba(100,180,180,0.5)'},
+        {label:'Nextail',data:[2,1,1,1,2,1],backgroundColor:'rgba(150,120,200,0.04)',borderColor:'rgba(150,120,200,0.45)',borderWidth:1.5,pointBackgroundColor:'rgba(150,120,200,0.45)'},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:14,font:{size:10}}}},
+      scales:{r:{backgroundColor:'rgba(13,148,136,0.01)',grid:{color:GRID},pointLabels:{color:MUTED,font:{size:10}},ticks:{display:false},min:0,max:5}}
+    }
+  });
+
+  // Market Growth
+  new Chart(document.getElementById('chartGrowth').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['2022','2023','2024','2025','2026','2027','2028','2030'],
+      datasets:[
+        {label:'Global AI Retail Market (USD B)',data:[22,28,31,36,42,51,63,88],backgroundColor:NAVY2,borderRadius:5,barPercentage:0.55},
+        {type:'line',label:'UK Prescriptive AI Adoption %',data:[null,2,5,10,18,28,38,55],borderColor:TEAL,borderWidth:2.5,yAxisID:'y2',tension:0.4,pointBackgroundColor:TEAL,fill:false}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:12,font:{size:10}}}},
+      scales:{
+        x:{grid:{color:GRID},ticks:{color:MUTED}},
+        y:{grid:{color:GRID},ticks:{color:MUTED,callback:v=>'$'+v+'B'}},
+        y2:{position:'right',grid:{display:false},ticks:{color:MUTED,callback:v=>v+'%'}}
+      }
+    }
+  });
+
+  // Performance Comparison
+  new Chart(document.getElementById('chartPerf').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['Prescriptive Accuracy','Inaction Cost ID','Edge Resilience','Labour Sync','Explainability','EU Compliance'],
+      datasets:[
+        {label:'RetailBrain OS',data:[97,92,99,96,98,95],backgroundColor:TEAL2,borderRadius:5,barPercentage:0.35},
+        {label:'Market Average',data:[15,5,8,12,10,20],backgroundColor:NAVY2,borderRadius:5,barPercentage:0.35}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:14,font:{size:10}}}},
+      scales:{
+        x:{grid:{color:GRID},ticks:{color:MUTED,font:{size:9}}},
+        y:{grid:{color:GRID},ticks:{color:MUTED,callback:v=>v+' pts'}}
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>
