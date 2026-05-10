@@ -67,6 +67,66 @@ body{font-family:var(--font);color:var(--text-dark);background:var(--bg-black);o
 img{display:block;max-width:100%;}
 
 /* ─── NAVBAR ─────────────────────────────────────────── */
+/* NAV LOGO */
+.nav-logo{
+  display:flex;
+  align-items:center;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+.nav-logo-wrap{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.nav-logo-image{
+  width:52px;
+  height:52px;
+  object-fit:contain;
+  border-radius:14px;
+  background:#ffffff;
+  padding:4px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.12);
+}
+
+.nav-logo-text{
+  display:flex;
+  flex-direction:column;
+  font-size:24px;
+  font-weight:800;
+  line-height:1;
+  color:#030303;
+  letter-spacing:-0.5px;
+}
+
+.nav-logo-text span{
+  font-size:12px;
+  font-weight:500;
+  color:rgba(255,255,255,0.75);
+  margin-top:6px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+  .nav-logo-image{
+    width:44px;
+    height:44px;
+  }
+
+  .nav-logo-text{
+    font-size:18px;
+  }
+
+  .nav-logo-text span{
+    font-size:10px;
+  }
+
+}
 .navbar{
   position:fixed;top:0;left:0;width:100%;height:var(--nav-h);
   background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);
@@ -754,6 +814,30 @@ footer{background:var(--text-mid);padding:clamp(60px,8vw,90px) 0 0;}
   display:grid;grid-template-columns:1.6fr repeat(3,1fr);
   gap:clamp(30px,5vw,60px);margin-bottom:clamp(40px,6vw,70px);
 }
+/* FOOTER LOGO */
+.footer-brand-logo-wrap{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.footer-brand-image{
+  width:64px;
+  height:64px;
+  object-fit:contain;
+  border-radius:18px;
+  background:#ffffff;
+  padding:6px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+
+.footer-brand-logo{
+  font-size:28px;
+  font-weight:800;
+  letter-spacing:-0.5px;
+  color:#ffffff;
+}
 .footer-brand-logo{
   display:flex;align-items:center;gap:12px;margin-bottom:18px;
   font-family:var(--display);font-size:20px;font-weight:800;color:#FFFFFF;
@@ -1068,22 +1152,32 @@ footer{background:var(--text-mid);padding:clamp(60px,8vw,90px) 0 0;}
 }
 </style>
 </head><500ms<body>
-
 <!-- ═══════════ NAVBAR ═══════════ -->
 <nav class="navbar">
 
   <!-- LOGO -->
   <a class="nav-logo" onclick="showPage('home')">
 
-    <div class="nav-logo-text">
-      RetailBrain OS
-      <span>Economic Intelligence</span>
+    <div class="nav-logo-wrap">
+
+      <img 
+        src="logo.png" 
+        alt="RetailBrain OS Logo"
+        class="nav-logo-image"
+      >
+
+      <div class="nav-logo-text">
+        RetailBrain OS
+        <span>Economic Intelligence</span>
+      </div>
+
     </div>
 
   </a>
 
   <!-- LINKS -->
   <ul class="nav-links">
+
     <li>
       <button id="nav-home" class="active" onclick="showPage('home')">
         Home
@@ -1125,6 +1219,7 @@ footer{background:var(--text-mid);padding:clamp(60px,8vw,90px) 0 0;}
         Request Demo
       </button>
     </li>
+
   </ul>
 
   <!-- RIGHT -->
@@ -1176,7 +1271,6 @@ footer{background:var(--text-mid);padding:clamp(60px,8vw,90px) 0 0;}
   </button>
 
 </div>
-
 <!-- ═══════════════════════════════════════════════ -->
 <!-- PAGE: HOME                                     -->
 <!-- ═══════════════════════════════════════════════ -->
@@ -1672,7 +1766,7 @@ footer{background:var(--text-mid);padding:clamp(60px,8vw,90px) 0 0;}
           <div class="team-avatar">NR</div>
           <div class="team-info">
             <div class="team-name">Nagaraju Reddyraju</div>
-            <div class="team-role">Co-Founder & CEO</div>
+            <div class="team-role">Founder & CEO</div>
             <p class="team-bio">15+ years of multi-site and flagship leadership across high-volume premium retail. Currently leading multi-concept operations at the Marks & Spencer Oxford Street flagship. His deep expertise in P&L management, labour cost control, and inventory optimisation drives the platform's "Operational Common Sense."</p>
             <div class="team-badges">
               <span class="team-badge">Marks & Spencer</span>
@@ -2614,7 +2708,7 @@ footer{background:var(--text-mid);padding:clamp(60px,8vw,90px) 0 0;}
               <span class="contact-detail-icon">
                 <i class="fas fa-envelope"></i>
               </span>
-              pilots@retailbrain.ai
+              theretailbrainuk@outlook.com
             </div>
 
             <div class="contact-detail">
@@ -2702,12 +2796,22 @@ footer{background:var(--text-mid);padding:clamp(60px,8vw,90px) 0 0;}
     <!-- BRAND -->
     <div>
 
-      <div class="footer-brand-logo">
-        RetailBrain OS
+      <div class="footer-brand-logo-wrap">
+
+        <img 
+          src="logo.png" 
+          alt="RetailBrain OS Logo"
+          class="footer-brand-image"
+        >
+
+        <div class="footer-brand-logo">
+          RetailBrain OS
+        </div>
+
       </div>
 
       <p class="footer-brand-desc">
-        The UK's first AI-powered Economic Operating System for retail. Transforming fragmented data into real-time prescriptive actions  securely, ethically, and with blackout-proof edge resilience.
+        The UK's first AI-powered Economic Operating System for retail. Transforming fragmented data into real-time prescriptive actions securely, ethically, and with blackout-proof edge resilience.
       </p>
 
       <div class="footer-socials">
@@ -2867,7 +2971,6 @@ footer{background:var(--text-mid);padding:clamp(60px,8vw,90px) 0 0;}
   </div>
 
 </footer>
-
 <!-- ═══════════ JAVASCRIPT ═══════════ -->
 <script>
 /* ─── PAGE NAV ───────────────────────────────── */
